@@ -1,0 +1,35 @@
+## Interface: 40300
+## Title: Toaster
+## Notes: Configuration for LibToast notifications.
+## Author: Torhal
+## Version: @project-version@
+## X-Date: @project-date-iso@
+## X-Email: jcallahan@curse.com
+## X-Category: Professions
+## OptionalDeps: Ace3, LibToast-1.0
+## SavedVariables: ToasterSettings
+
+# LoadManagers: AddonLoader
+# X-LoadOn-Always: Delayed
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
+#@debug@
+Localization\devel-enUS.lua
+#@end-debug@
+
+Localization\deDE.lua
+#@non-debug@
+Localization\enUS.lua
+#@end-non-debug@
+Localization\esES.lua
+Localization\esMX.lua
+Localization\frFR.lua
+Localization\koKR.lua
+Localization\ruRU.lua
+Localization\zhCN.lua
+Localization\zhTW.lua
+
+Core.lua
