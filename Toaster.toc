@@ -28,6 +28,7 @@ Localization\esES.lua
 Localization\esMX.lua
 Localization\frFR.lua
 Localization\koKR.lua
+Localization\ptBR.lua
 Localization\ruRU.lua
 Localization\zhCN.lua
 Localization\zhTW.lua

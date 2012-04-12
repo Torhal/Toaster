@@ -4,6 +4,7 @@ enable-nolib-creation: yes
 
 ignore:
   - .pkgmeta
+  - Localization/devel-enUS.lua
 
 externals:
     Libs/LibStub:
