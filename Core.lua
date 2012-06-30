@@ -11,9 +11,9 @@ local ADDON_NAME, private = ...
 local LibStub = _G.LibStub
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 local LDBIcon = LibStub("LibDBIcon-1.0")
-local LibToast = LibStub("LibToast-1.0",true)
+local LibToast = LibStub("LibToast-1.0", true)
 if not LibToast then return end
-local Toaster = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME)
+local Toaster = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME, "AceConsole-3.0")
 _G.Toaster = Toaster
 
 -----------------------------------------------------------------------
@@ -120,23 +120,33 @@ function Toaster:OnInitialize()
     }
     db = LibStub("AceDB-3.0"):New(("%sSettings"):format(ADDON_NAME), database_defaults, "Default")
 
-    local LDB_launcher = LibStub("LibDataBroker-1.1", true):NewDataObject(ADDON_NAME, {
-        type = "launcher",
-        label = ADDON_NAME,
-        icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
-        OnClick = function(display, button)
-            local options_frame = _G.InterfaceOptionsFrame
 
-            if options_frame:IsVisible() then
-                options_frame:Hide()
-            else
-                _G.InterfaceOptionsFrame_OpenToCategory(Toaster.options_frame)
-            end
-        end,
-    })
+    LDBIcon:Register(ADDON_NAME, LibStub("LibDataBroker-1.1", true):NewDataObject(ADDON_NAME,
+        {
+            type = "launcher",
+            label = ADDON_NAME,
+            icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
+            OnClick = function(display, button)
+                local options_frame = _G.InterfaceOptionsFrame
 
-    LDBIcon:Register(ADDON_NAME, LDB_launcher, db.global.general.minimap_icon)
+                if options_frame:IsVisible() then
+                    options_frame:Hide()
+                else
+                    _G.InterfaceOptionsFrame_OpenToCategory(Toaster.options_frame)
+                end
+            end,
+        }), db.global.general.minimap_icon)
+
     self:SetupOptions()
+    self:RegisterChatCommand("toaster", function(args)
+        local options_frame = _G.InterfaceOptionsFrame
+
+        if options_frame:IsVisible() then
+            options_frame:Hide()
+        else
+            _G.InterfaceOptionsFrame_OpenToCategory(self.options_frame)
+        end
+    end)
 end
 
 function Toaster:OnEnable()
@@ -351,11 +361,11 @@ local function DisplayOptions()
                     width = "full",
                     name = "",
                 },
-	            header2 = {
-		            order = 36,
-		            type = "header",
-		            name = L["Moderate"],
-	            },
+                header2 = {
+                    order = 36,
+                    type = "header",
+                    name = L["Moderate"],
+                },
                 urgency_moderate_title = _displayColorDefinition(40, "title", "moderate"),
                 urgency_moderate_text = _displayColorDefinition(41, "text", "moderate"),
                 urgency_moderate_background = _displayColorDefinition(42, "background", "moderate"),
@@ -366,11 +376,11 @@ local function DisplayOptions()
                     width = "full",
                     name = "",
                 },
-	            header3 = {
-		            order = 45,
-		            type = "header",
-		            name = L["Normal"],
-	            },
+                header3 = {
+                    order = 45,
+                    type = "header",
+                    name = L["Normal"],
+                },
                 urgency_normal_title = _displayColorDefinition(50, "title", "normal"),
                 urgency_normal_text = _displayColorDefinition(51, "text", "normal"),
                 urgency_normal_background = _displayColorDefinition(52, "background", "normal"),
@@ -381,11 +391,11 @@ local function DisplayOptions()
                     width = "full",
                     name = "",
                 },
-	            header4 = {
-		            order = 55,
-		            type = "header",
-		            name = L["High"],
-	            },
+                header4 = {
+                    order = 55,
+                    type = "header",
+                    name = L["High"],
+                },
                 urgency_high_title = _displayColorDefinition(60, "title", "high"),
                 urgency_high_text = _displayColorDefinition(61, "text", "high"),
                 urgency_high_background = _displayColorDefinition(62, "background", "high"),
@@ -396,11 +406,11 @@ local function DisplayOptions()
                     width = "full",
                     name = "",
                 },
-	            header5 = {
-		            order = 65,
-		            type = "header",
-		            name = L["Emergency"],
-	            },
+                header5 = {
+                    order = 65,
+                    type = "header",
+                    name = L["Emergency"],
+                },
                 urgency_emergency_title = _displayColorDefinition(70, "title", "emergency"),
                 urgency_emergency_text = _displayColorDefinition(71, "text", "emergency"),
                 urgency_emergency_background = _displayColorDefinition(72, "background", "emergency"),
