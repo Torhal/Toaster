@@ -20,10 +20,10 @@ embeds.xml
 Localization\devel-enUS.lua
 #@end-debug@
 
-Localization\deDE.lua
 #@non-debug@
 Localization\enUS.lua
 #@end-non-debug@
+Localization\deDE.lua
 Localization\esES.lua
 Localization\esMX.lua
 Localization\frFR.lua
