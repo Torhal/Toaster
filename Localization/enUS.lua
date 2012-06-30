@@ -2,13 +2,13 @@ local ADDON_NAME, private = ...
 
 local _G = getfenv(0)
 
-local debug = false
+local is_release = true
 --@debug@
-debug = true
+is_release = false
 --@end-debug@
 
 
-local L = _G.LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true, debug)
+local L = _G.LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", is_release, is_release)
 
 if not L then return end
 
