@@ -73,6 +73,10 @@ function Toaster:FloatingIcon()
     return db.global.display.floating_icon
 end
 
+function Toaster:IconSize()
+    return db.global.display.icon_size
+end
+
 function Toaster:Opacity()
     return db.global.display.opacity
 end
@@ -100,6 +104,7 @@ function Toaster:OnInitialize()
                     ["*"] = DEFAULT_BACKGROUND_COLORS,
                 },
                 duration = 5,
+                icon_size = 30,
                 floating_icon = false,
                 opacity = 0.75,
                 text = {
@@ -335,6 +340,27 @@ local function DisplayOptions()
                     width = "full",
                     name = "",
                 },
+                icon_size = {
+                    order = 14,
+                    name = L["Icon Size"],
+                    type = "range",
+                    width = "full",
+                    min = 10,
+                    max = 30,
+                    step = 1,
+                    get = function()
+                        return db.global.display.icon_size
+                    end,
+                    set = function(info, value)
+                        db.global.display.icon_size = value
+                    end,
+                },
+                empty_3 = {
+                    order = 15,
+                    type = "description",
+                    width = "full",
+                    name = "",
+                },
                 floating_icon = {
                     order = 20,
                     name = L["Floating Icon"],
@@ -345,6 +371,12 @@ local function DisplayOptions()
                     set = function(info, value)
                         db.global.display.floating_icon = value
                     end,
+                },
+                empty_3 = {
+                    order = 21,
+                    type = "description",
+                    width = "full",
+                    name = "",
                 },
                 header1 = {
                     order = 30,

@@ -10,6 +10,7 @@ L["Emergency"] = true
 L["Floating Icon"] = true
 L["Hide Toasts"] = true
 L["High"] = true
+L["Icon Size"] = true
 L["Moderate"] = true
 L["Normal"] = true
 L["Preview"] = true
