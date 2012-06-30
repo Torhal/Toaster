@@ -242,7 +242,7 @@ end
 local display_options
 
 local function _displayColorDefinition(order, category, reference)
-    local name = category:lower():gsub("^%l", _G.string.upper):gsub("_", " "):gsub(" %l", _G.string.upper)
+    local name = L[category:lower():gsub("^%l", _G.string.upper):gsub("_", " "):gsub(" %l", _G.string.upper)]
 
     return {
         order = order,

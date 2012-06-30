@@ -5,7 +5,7 @@ local L = _G.LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true)
 
 if not L then return end
 
-L["Background"] = _G.BACKGROUND
+L["Background"] = true
 L["Emergency"] = true
 L["Floating Icon"] = true
 L["Hide Toasts"] = true
