@@ -3,6 +3,9 @@
 -----------------------------------------------------------------------
 local _G = getfenv(0)
 
+local table = _G.table
+
+
 -----------------------------------------------------------------------
 -- AddOn namespace.
 -----------------------------------------------------------------------
@@ -40,7 +43,27 @@ local DEFAULT_TEXT_COLORS = {
 -----------------------------------------------------------------------
 -- Variables
 -----------------------------------------------------------------------
+local addon_names = {}
 local db
+
+-----------------------------------------------------------------------
+-- Helpers.
+-----------------------------------------------------------------------
+local function PopulateAddOnNames()
+    for addon_name, data in _G.pairs(db.global.addons) do
+        addon_names[addon_name] = addon_name
+    end
+end
+
+local function RegisterAddOn(source_addon)
+    if source_addon == ADDON_NAME or db.global.addons[source_addon].known then
+        return false
+    end
+    db.global.addons[source_addon].known = true
+    PopulateAddOnNames()
+    LibStub("AceConfigRegistry-3.0"):NotifyChange(ADDON_NAME)
+    return true
+end
 
 -----------------------------------------------------------------------
 -- Public API
@@ -93,12 +116,37 @@ function Toaster:HideToasts()
     return db.global.general.hide_toasts
 end
 
+function Toaster:HideToastsFromSource(source_addon)
+    if not source_addon or RegisterAddOn(source_addon) then
+        return false
+    end
+    return not db.global.addons[source_addon].show
+end
+
+function Toaster:MuteToasts()
+    return db.global.general.mute_toasts
+end
+
+function Toaster:MuteToastsFromSource(source_addon)
+    if not source_addon or RegisterAddOn(source_addon) then
+        return false
+    end
+    return db.global.addons[source_addon].mute
+end
+
 -----------------------------------------------------------------------
 -- Initialization/Enable/Disable
 -----------------------------------------------------------------------
 function Toaster:OnInitialize()
     local database_defaults = {
         global = {
+            addons = {
+                ["*"] = {
+                    show = true,
+                    mute = false,
+                    known = false,
+                },
+            },
             display = {
                 background = {
                     ["*"] = DEFAULT_BACKGROUND_COLORS,
@@ -142,6 +190,7 @@ function Toaster:OnInitialize()
             end,
         }), db.global.general.minimap_icon)
 
+    PopulateAddOnNames()
     self:SetupOptions()
     self:RegisterChatCommand("toaster", function(args)
         local options_frame = _G.InterfaceOptionsFrame
@@ -182,71 +231,131 @@ for index = 1, #SPAWN_POINTS do
     SPAWN_INDICES[SPAWN_POINTS[index]] = index
 end
 
+local addon_options
+
+local function AddOnOptions()
+    if addon_options then
+        return addon_options
+    end
+    addon_options = {
+        order = 1,
+        name = _G.ADDONS,
+        type = "group",
+        args = {
+            show = {
+                order = 1,
+                type = "multiselect",
+                name = _G.SHOW,
+                width = "double",
+                values = addon_names,
+                get = function(info, addon_name)
+                    return db.global.addons[addon_name].show
+                end,
+                set = function(info, addon_name, value)
+                    db.global.addons[addon_name].show = value
+                end,
+            },
+            mute = {
+                order = 2,
+                type = "multiselect",
+                name = _G.MUTE,
+                width = "double",
+                values = addon_names,
+                get = function(info, addon_name)
+                    return db.global.addons[addon_name].mute
+                end,
+                set = function(info, addon_name, value)
+                    db.global.addons[addon_name].mute = value
+                end,
+            },
+        },
+    }
+    return addon_options
+end
+
 local general_options
 
 local function GeneralOptions()
-    if not general_options then
-        general_options = {
-            order = 1,
-            name = _G.GENERAL,
-            type = "group",
-            args = {
-                minimap_icon = {
-                    order = 10,
-                    type = "toggle",
-                    name = L["Show Minimap Icon"],
-                    get = function(info)
-                        return not db.global.general.minimap_icon.hide
-                    end,
-                    set = function(info, value)
-                        db.global.general.minimap_icon.hide = not value
-                        LDBIcon[value and "Show" or "Hide"](LDBIcon, ADDON_NAME)
-                    end,
-                },
-                empty_2 = {
-                    order = 11,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                hide_toasts = {
-                    order = 20,
-                    type = "toggle",
-                    name = L["Hide Toasts"],
-                    get = function(info)
-                        return db.global.general.hide_toasts
-                    end,
-                    set = function(info, value)
-                        db.global.general.hide_toasts = value
-                    end,
-                },
-                empty_3 = {
-                    order = 21,
-                    type = "description",
-                    width = "full",
-                    name = " ",
-                },
-                spawn_point = {
-                    order = 30,
-                    type = "select",
-                    name = L["Spawn Point"],
-                    get = function()
-                        return SPAWN_INDICES[db.global.general.spawn_point]
-                    end,
-                    set = function(info, value)
-                        db.global.general.spawn_point = SPAWN_POINTS[value]
-                    end,
-                    values = LOCALIZED_SPAWN_POINTS,
-                }
-            },
-        }
+    if general_options then
+        return general_options
     end
+    general_options = {
+        order = 3,
+        name = _G.GENERAL,
+        type = "group",
+        args = {
+            minimap_icon = {
+                order = 10,
+                type = "toggle",
+                name = L["Show Minimap Icon"],
+                get = function(info)
+                    return not db.global.general.minimap_icon.hide
+                end,
+                set = function(info, value)
+                    db.global.general.minimap_icon.hide = not value
+                    LDBIcon[value and "Show" or "Hide"](LDBIcon, ADDON_NAME)
+                end,
+            },
+            empty_2 = {
+                order = 11,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            hide_toasts = {
+                order = 20,
+                type = "toggle",
+                name = L["Hide Toasts"],
+                get = function(info)
+                    return db.global.general.hide_toasts
+                end,
+                set = function(info, value)
+                    db.global.general.hide_toasts = value
+                end,
+            },
+            empty_3 = {
+                order = 21,
+                type = "description",
+                width = "full",
+                name = " ",
+            },
+            mute_toasts = {
+                order = 30,
+                type = "toggle",
+                name = L["Mute Toasts"],
+                get = function(info)
+                    return db.global.general.mute_toasts
+                end,
+                set = function(info, value)
+                    db.global.general.mute_toasts = value
+                end,
+            },
+            empty_3 = {
+                order = 31,
+                type = "description",
+                width = "full",
+                name = " ",
+            },
+            spawn_point = {
+                order = 40,
+                type = "select",
+                name = L["Spawn Point"],
+                get = function()
+                    return SPAWN_INDICES[db.global.general.spawn_point]
+                end,
+                set = function(info, value)
+                    db.global.general.spawn_point = SPAWN_POINTS[value]
+                end,
+                values = LOCALIZED_SPAWN_POINTS,
+            }
+        },
+    }
     return general_options
 end
 
 local display_options
 
-local function _displayColorDefinition(order, category, reference)
+local function DisplayColorDefinition(order, category, reference)
     local name = L[category:lower():gsub("^%l", _G.string.upper):gsub("_", " "):gsub(" %l", _G.string.upper)]
 
     return {
@@ -269,7 +378,7 @@ end
 
 local preview_registered = false
 
-local function _displayColorPreview(order, reference)
+local function DisplayColorPreview(order, reference)
     return {
         order = order,
         type = "execute",
@@ -291,171 +400,172 @@ local function _displayColorPreview(order, reference)
 end
 
 local function DisplayOptions()
-    if not display_options then
-        display_options = {
-            order = 2,
-            name = _G.DISPLAY,
-            type = "group",
-            args = {
-                opacity = {
-                    order = 10,
-                    name = _G.OPACITY,
-                    type = "range",
-                    width = "full",
-                    min = 0,
-                    max = 1,
-                    step = 0.05,
-                    isPercent = true,
-                    get = function()
-                        return db.global.display.opacity
-                    end,
-                    set = function(info, value)
-                        db.global.display.opacity = value
-                    end,
-                },
-                empty_1 = {
-                    order = 11,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                duration = {
-                    order = 12,
-                    name = _G.TOAST_DURATION_TEXT,
-                    type = "range",
-                    width = "full",
-                    min = 0,
-                    max = 10,
-                    step = 0.25,
-                    get = function()
-                        return db.global.display.duration
-                    end,
-                    set = function(info, value)
-                        db.global.display.duration = value
-                    end,
-                },
-                empty_2 = {
-                    order = 13,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                icon_size = {
-                    order = 14,
-                    name = L["Icon Size"],
-                    type = "range",
-                    width = "full",
-                    min = 10,
-                    max = 30,
-                    step = 1,
-                    get = function()
-                        return db.global.display.icon_size
-                    end,
-                    set = function(info, value)
-                        db.global.display.icon_size = value
-                    end,
-                },
-                empty_3 = {
-                    order = 15,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                floating_icon = {
-                    order = 20,
-                    name = L["Floating Icon"],
-                    type = "toggle",
-                    get = function()
-                        return db.global.display.floating_icon
-                    end,
-                    set = function(info, value)
-                        db.global.display.floating_icon = value
-                    end,
-                },
-                empty_3 = {
-                    order = 21,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                header1 = {
-                    order = 30,
-                    type = "header",
-                    name = L["Very Low"],
-                },
-                urgency_very_low_title = _displayColorDefinition(31, "title", "very_low"),
-                urgency_very_low_text = _displayColorDefinition(32, "text", "very_low"),
-                urgency_very_low_background = _displayColorDefinition(33, "background", "very_low"),
-                urgency_very_low_preview = _displayColorPreview(34, "very_low"),
-                empty_3 = {
-                    order = 35,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                header2 = {
-                    order = 36,
-                    type = "header",
-                    name = L["Moderate"],
-                },
-                urgency_moderate_title = _displayColorDefinition(40, "title", "moderate"),
-                urgency_moderate_text = _displayColorDefinition(41, "text", "moderate"),
-                urgency_moderate_background = _displayColorDefinition(42, "background", "moderate"),
-                urgency_moderate_preview = _displayColorPreview(43, "moderate"),
-                empty_4 = {
-                    order = 44,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                header3 = {
-                    order = 45,
-                    type = "header",
-                    name = L["Normal"],
-                },
-                urgency_normal_title = _displayColorDefinition(50, "title", "normal"),
-                urgency_normal_text = _displayColorDefinition(51, "text", "normal"),
-                urgency_normal_background = _displayColorDefinition(52, "background", "normal"),
-                urgency_normal_preview = _displayColorPreview(53, "normal"),
-                empty_5 = {
-                    order = 54,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                header4 = {
-                    order = 55,
-                    type = "header",
-                    name = L["High"],
-                },
-                urgency_high_title = _displayColorDefinition(60, "title", "high"),
-                urgency_high_text = _displayColorDefinition(61, "text", "high"),
-                urgency_high_background = _displayColorDefinition(62, "background", "high"),
-                urgency_high_preview = _displayColorPreview(63, "high"),
-                empty_6 = {
-                    order = 64,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-                header5 = {
-                    order = 65,
-                    type = "header",
-                    name = L["Emergency"],
-                },
-                urgency_emergency_title = _displayColorDefinition(70, "title", "emergency"),
-                urgency_emergency_text = _displayColorDefinition(71, "text", "emergency"),
-                urgency_emergency_background = _displayColorDefinition(72, "background", "emergency"),
-                urgency_emergency_preview = _displayColorPreview(73, "emergency"),
-                empty_7 = {
-                    order = 74,
-                    type = "description",
-                    width = "full",
-                    name = "",
-                },
-            },
-        }
+    if display_options then
+        return display_options
     end
+    display_options = {
+        order = 2,
+        name = _G.DISPLAY,
+        type = "group",
+        args = {
+            opacity = {
+                order = 10,
+                name = _G.OPACITY,
+                type = "range",
+                width = "full",
+                min = 0,
+                max = 1,
+                step = 0.05,
+                isPercent = true,
+                get = function()
+                    return db.global.display.opacity
+                end,
+                set = function(info, value)
+                    db.global.display.opacity = value
+                end,
+            },
+            empty_1 = {
+                order = 11,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            duration = {
+                order = 12,
+                name = _G.TOAST_DURATION_TEXT,
+                type = "range",
+                width = "full",
+                min = 0,
+                max = 10,
+                step = 0.25,
+                get = function()
+                    return db.global.display.duration
+                end,
+                set = function(info, value)
+                    db.global.display.duration = value
+                end,
+            },
+            empty_2 = {
+                order = 13,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            icon_size = {
+                order = 14,
+                name = L["Icon Size"],
+                type = "range",
+                width = "full",
+                min = 10,
+                max = 30,
+                step = 1,
+                get = function()
+                    return db.global.display.icon_size
+                end,
+                set = function(info, value)
+                    db.global.display.icon_size = value
+                end,
+            },
+            empty_3 = {
+                order = 15,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            floating_icon = {
+                order = 20,
+                name = L["Floating Icon"],
+                type = "toggle",
+                get = function()
+                    return db.global.display.floating_icon
+                end,
+                set = function(info, value)
+                    db.global.display.floating_icon = value
+                end,
+            },
+            empty_3 = {
+                order = 21,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            header1 = {
+                order = 30,
+                type = "header",
+                name = L["Very Low"],
+            },
+            urgency_very_low_title = DisplayColorDefinition(31, "title", "very_low"),
+            urgency_very_low_text = DisplayColorDefinition(32, "text", "very_low"),
+            urgency_very_low_background = DisplayColorDefinition(33, "background", "very_low"),
+            urgency_very_low_preview = DisplayColorPreview(34, "very_low"),
+            empty_3 = {
+                order = 35,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            header2 = {
+                order = 36,
+                type = "header",
+                name = L["Moderate"],
+            },
+            urgency_moderate_title = DisplayColorDefinition(40, "title", "moderate"),
+            urgency_moderate_text = DisplayColorDefinition(41, "text", "moderate"),
+            urgency_moderate_background = DisplayColorDefinition(42, "background", "moderate"),
+            urgency_moderate_preview = DisplayColorPreview(43, "moderate"),
+            empty_4 = {
+                order = 44,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            header3 = {
+                order = 45,
+                type = "header",
+                name = L["Normal"],
+            },
+            urgency_normal_title = DisplayColorDefinition(50, "title", "normal"),
+            urgency_normal_text = DisplayColorDefinition(51, "text", "normal"),
+            urgency_normal_background = DisplayColorDefinition(52, "background", "normal"),
+            urgency_normal_preview = DisplayColorPreview(53, "normal"),
+            empty_5 = {
+                order = 54,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            header4 = {
+                order = 55,
+                type = "header",
+                name = L["High"],
+            },
+            urgency_high_title = DisplayColorDefinition(60, "title", "high"),
+            urgency_high_text = DisplayColorDefinition(61, "text", "high"),
+            urgency_high_background = DisplayColorDefinition(62, "background", "high"),
+            urgency_high_preview = DisplayColorPreview(63, "high"),
+            empty_6 = {
+                order = 64,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+            header5 = {
+                order = 65,
+                type = "header",
+                name = L["Emergency"],
+            },
+            urgency_emergency_title = DisplayColorDefinition(70, "title", "emergency"),
+            urgency_emergency_text = DisplayColorDefinition(71, "text", "emergency"),
+            urgency_emergency_background = DisplayColorDefinition(72, "background", "emergency"),
+            urgency_emergency_preview = DisplayColorPreview(73, "emergency"),
+            empty_7 = {
+                order = 74,
+                type = "description",
+                width = "full",
+                name = "",
+            },
+        },
+    }
     return display_options
 end
 
@@ -469,6 +579,7 @@ local function Options()
             childGroups = "tab",
             args = {}
         }
+        options.args.addon_options = AddOnOptions()
         options.args.general_options = GeneralOptions()
         options.args.display_options = DisplayOptions()
     end

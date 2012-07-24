@@ -12,6 +12,7 @@ L["Hide Toasts"] = true
 L["High"] = true
 L["Icon Size"] = true
 L["Moderate"] = true
+L["Mute Toasts"] = true
 L["Normal"] = true
 L["Preview"] = true
 L["Show Minimap Icon"] = true
