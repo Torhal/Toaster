@@ -88,6 +88,10 @@ function Toaster:TextColors(urgency)
     return colors.r, colors.g, colors.b
 end
 
+function Toaster:Backdrop()
+
+end
+
 function Toaster:Duration()
     return db.global.display.duration
 end
