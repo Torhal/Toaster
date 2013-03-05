@@ -1,4 +1,4 @@
-## Interface: 50001
+## Interface: 50200
 ## Title: Toaster
 ## Notes: Configuration for LibToast notifications.
 ## Author: Torhal
