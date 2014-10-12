@@ -357,9 +357,8 @@ local function GeneralOptions()
     return general_options
 end
 
-local display_options
 
-local function DisplayColorDefinition(order, category, reference)
+local function ColorDefinition(order, category, reference)
     local name = L[category:lower():gsub("^%l", _G.string.upper):gsub("_", " "):gsub(" %l", _G.string.upper)]
 
     return {
@@ -382,7 +381,7 @@ end
 
 local preview_registered = false
 
-local function DisplayColorPreview(order, reference)
+local function ColorPreview(order, reference)
     return {
         order = order,
         type = "execute",
@@ -403,12 +402,114 @@ local function DisplayColorPreview(order, reference)
     }
 end
 
+local color_options
+
+local function ColorOptions()
+	if color_options then
+		return color_options
+	end
+
+	color_options = {
+		order = 2,
+		name = _G.COLOR,
+		type = "group",
+		args = {
+			empty_1 = {
+				order = 21,
+				type = "description",
+				width = "full",
+				name = "",
+			},
+			header1 = {
+				order = 30,
+				type = "header",
+				name = L["Very Low"],
+			},
+			urgency_very_low_title = ColorDefinition(31, "title", "very_low"),
+			urgency_very_low_text = ColorDefinition(32, "text", "very_low"),
+			urgency_very_low_background = ColorDefinition(33, "background", "very_low"),
+			urgency_very_low_preview = ColorPreview(34, "very_low"),
+			empty_3 = {
+				order = 35,
+				type = "description",
+				width = "full",
+				name = "",
+			},
+			header2 = {
+				order = 36,
+				type = "header",
+				name = L["Moderate"],
+			},
+			urgency_moderate_title = ColorDefinition(40, "title", "moderate"),
+			urgency_moderate_text = ColorDefinition(41, "text", "moderate"),
+			urgency_moderate_background = ColorDefinition(42, "background", "moderate"),
+			urgency_moderate_preview = ColorPreview(43, "moderate"),
+			empty_4 = {
+				order = 44,
+				type = "description",
+				width = "full",
+				name = "",
+			},
+			header3 = {
+				order = 45,
+				type = "header",
+				name = L["Normal"],
+			},
+			urgency_normal_title = ColorDefinition(50, "title", "normal"),
+			urgency_normal_text = ColorDefinition(51, "text", "normal"),
+			urgency_normal_background = ColorDefinition(52, "background", "normal"),
+			urgency_normal_preview = ColorPreview(53, "normal"),
+			empty_5 = {
+				order = 54,
+				type = "description",
+				width = "full",
+				name = "",
+			},
+			header4 = {
+				order = 55,
+				type = "header",
+				name = L["High"],
+			},
+			urgency_high_title = ColorDefinition(60, "title", "high"),
+			urgency_high_text = ColorDefinition(61, "text", "high"),
+			urgency_high_background = ColorDefinition(62, "background", "high"),
+			urgency_high_preview = ColorPreview(63, "high"),
+			empty_6 = {
+				order = 64,
+				type = "description",
+				width = "full",
+				name = "",
+			},
+			header5 = {
+				order = 65,
+				type = "header",
+				name = L["Emergency"],
+			},
+			urgency_emergency_title = ColorDefinition(70, "title", "emergency"),
+			urgency_emergency_text = ColorDefinition(71, "text", "emergency"),
+			urgency_emergency_background = ColorDefinition(72, "background", "emergency"),
+			urgency_emergency_preview = ColorPreview(73, "emergency"),
+			empty_7 = {
+				order = 74,
+				type = "description",
+				width = "full",
+				name = "",
+			},
+		},
+	}
+
+	return color_options
+end
+
+local display_options
+
 local function DisplayOptions()
     if display_options then
         return display_options
     end
+
     display_options = {
-        order = 2,
+        order = 3,
         name = _G.DISPLAY,
         type = "group",
         args = {
@@ -487,87 +588,6 @@ local function DisplayOptions()
                     db.global.display.floating_icon = value
                 end,
             },
-            empty_3 = {
-                order = 21,
-                type = "description",
-                width = "full",
-                name = "",
-            },
-            header1 = {
-                order = 30,
-                type = "header",
-                name = L["Very Low"],
-            },
-            urgency_very_low_title = DisplayColorDefinition(31, "title", "very_low"),
-            urgency_very_low_text = DisplayColorDefinition(32, "text", "very_low"),
-            urgency_very_low_background = DisplayColorDefinition(33, "background", "very_low"),
-            urgency_very_low_preview = DisplayColorPreview(34, "very_low"),
-            empty_3 = {
-                order = 35,
-                type = "description",
-                width = "full",
-                name = "",
-            },
-            header2 = {
-                order = 36,
-                type = "header",
-                name = L["Moderate"],
-            },
-            urgency_moderate_title = DisplayColorDefinition(40, "title", "moderate"),
-            urgency_moderate_text = DisplayColorDefinition(41, "text", "moderate"),
-            urgency_moderate_background = DisplayColorDefinition(42, "background", "moderate"),
-            urgency_moderate_preview = DisplayColorPreview(43, "moderate"),
-            empty_4 = {
-                order = 44,
-                type = "description",
-                width = "full",
-                name = "",
-            },
-            header3 = {
-                order = 45,
-                type = "header",
-                name = L["Normal"],
-            },
-            urgency_normal_title = DisplayColorDefinition(50, "title", "normal"),
-            urgency_normal_text = DisplayColorDefinition(51, "text", "normal"),
-            urgency_normal_background = DisplayColorDefinition(52, "background", "normal"),
-            urgency_normal_preview = DisplayColorPreview(53, "normal"),
-            empty_5 = {
-                order = 54,
-                type = "description",
-                width = "full",
-                name = "",
-            },
-            header4 = {
-                order = 55,
-                type = "header",
-                name = L["High"],
-            },
-            urgency_high_title = DisplayColorDefinition(60, "title", "high"),
-            urgency_high_text = DisplayColorDefinition(61, "text", "high"),
-            urgency_high_background = DisplayColorDefinition(62, "background", "high"),
-            urgency_high_preview = DisplayColorPreview(63, "high"),
-            empty_6 = {
-                order = 64,
-                type = "description",
-                width = "full",
-                name = "",
-            },
-            header5 = {
-                order = 65,
-                type = "header",
-                name = L["Emergency"],
-            },
-            urgency_emergency_title = DisplayColorDefinition(70, "title", "emergency"),
-            urgency_emergency_text = DisplayColorDefinition(71, "text", "emergency"),
-            urgency_emergency_background = DisplayColorDefinition(72, "background", "emergency"),
-            urgency_emergency_preview = DisplayColorPreview(73, "emergency"),
-            empty_7 = {
-                order = 74,
-                type = "description",
-                width = "full",
-                name = "",
-            },
         },
     }
     return display_options
@@ -581,11 +601,13 @@ local function Options()
             name = ADDON_NAME,
             type = "group",
             childGroups = "tab",
-            args = {}
+            args = {
+	            addon_options = AddOnOptions(),
+	            color_options = ColorOptions(),
+	            display_options = DisplayOptions(),
+	            general_options = GeneralOptions(),
+            }
         }
-        options.args.addon_options = AddOnOptions()
-        options.args.general_options = GeneralOptions()
-        options.args.display_options = DisplayOptions()
     end
     return options
 end
