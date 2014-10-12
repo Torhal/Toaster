@@ -171,7 +171,7 @@ function Toaster:OnInitialize()
                 minimap_icon = {
                     hide = false,
                 },
-                spawn_point = "TOPRIGHT",
+                spawn_point = _G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT",
             },
         },
     }
