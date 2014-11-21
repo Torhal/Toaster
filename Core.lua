@@ -243,34 +243,45 @@ local function AddOnOptions()
     end
     addon_options = {
         order = 1,
-        name = _G.ADDONS,
+        name = _G.MESSAGE_SOURCES,
         type = "group",
+        childGroups = "tab",
         args = {
             show = {
-                order = 1,
-                type = "multiselect",
                 name = _G.SHOW,
-                width = "double",
-                values = addon_names,
-                get = function(info, addon_name)
-                    return db.global.addons[addon_name].show
-                end,
-                set = function(info, addon_name, value)
-                    db.global.addons[addon_name].show = value
-                end,
+                order = 1,
+                type = "group",
+                args = {
+                    entries = {
+                        name = _G.ADDONS,
+                        type = "multiselect",
+                        values = addon_names,
+                        get = function(info, addon_name)
+                            return db.global.addons[addon_name].show
+                        end,
+                        set = function(info, addon_name, value)
+                            db.global.addons[addon_name].show = value
+                        end,
+                    },
+                },
             },
             mute = {
-                order = 2,
-                type = "multiselect",
                 name = _G.MUTE,
-                width = "double",
-                values = addon_names,
-                get = function(info, addon_name)
-                    return db.global.addons[addon_name].mute
-                end,
-                set = function(info, addon_name, value)
-                    db.global.addons[addon_name].mute = value
-                end,
+                order = 2,
+                type = "group",
+                args = {
+                    entries = {
+                        name = _G.ADDONS,
+                        type = "multiselect",
+                        values = addon_names,
+                        get = function(info, addon_name)
+                            return db.global.addons[addon_name].mute
+                        end,
+                        set = function(info, addon_name, value)
+                            db.global.addons[addon_name].mute = value
+                        end,
+                    },
+                },
             },
         },
     }
