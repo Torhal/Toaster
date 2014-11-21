@@ -15,7 +15,6 @@ local LibStub = _G.LibStub
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 local LDBIcon = LibStub("LibDBIcon-1.0")
 local LibToast = LibStub("LibToast-1.0", true)
-if not LibToast then return end
 local Toaster = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME, "AceConsole-3.0")
 _G.Toaster = Toaster
 
