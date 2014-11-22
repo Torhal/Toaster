@@ -34,3 +34,4 @@ Localization\zhCN.lua
 Localization\zhTW.lua
 
 Core.lua
+Config.lua
