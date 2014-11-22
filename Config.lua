@@ -355,8 +355,8 @@ local function DisplayOptions()
 				name = _G.TOAST_DURATION_TEXT,
 				type = "range",
 				width = "full",
-				min = 0,
-				max = 10,
+				min = 5,
+				max = 30,
 				step = 0.25,
 				get = function()
 					return db.global.display.duration
