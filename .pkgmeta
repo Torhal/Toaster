@@ -3,7 +3,6 @@ package-as: Toaster
 enable-nolib-creation: yes
 
 ignore:
-  - .pkgmeta
   - Localization/devel-enUS.lua
 
 externals:
@@ -37,3 +36,5 @@ externals:
 	Libs/LibDBIcon-1.0:
 		url: svn://svn.wowace.com/wow/libdbicon-1-0/mainline/trunk/LibDBIcon-1.0
 		tag: latest
+	Libs/LibToast-1.0:
+		url: http://hg.curseforge.net/wow/libtoast-1-0/mainline
