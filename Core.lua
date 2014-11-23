@@ -68,7 +68,15 @@ end
 -- Public API
 -----------------------------------------------------------------------
 function Toaster:SpawnPoint()
-    return db.global.general.spawn_point
+    return db.global.display.anchor.point
+end
+
+function Toaster:SpawnOffsetX()
+    return db.global.display.anchor.x
+end
+
+function Toaster:SpawnOffsetY()
+    return db.global.display.anchor.y
 end
 
 function Toaster:TitleColors(urgency)
@@ -140,41 +148,60 @@ end
 -----------------------------------------------------------------------
 -- Initialization/Enable/Disable
 -----------------------------------------------------------------------
-function Toaster:OnInitialize()
-    local database_defaults = {
-        global = {
-            addons = {
-                ["*"] = {
-                    show = true,
-                    mute = false,
-                    known = false,
-                },
-            },
-            display = {
-                background = {
-                    ["*"] = DEFAULT_BACKGROUND_COLORS,
-                },
-                duration = 5,
-                icon_size = 30,
-                floating_icon = false,
-                opacity = 0.75,
-                text = {
-                    ["*"] = DEFAULT_TEXT_COLORS,
-                },
-                title = {
-                    ["*"] = DEFAULT_TITLE_COLORS,
-                },
-            },
-            general = {
-                hide_toasts = false,
-                minimap_icon = {
-                    hide = false,
-                },
-                spawn_point = _G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT",
+local DEFAULT_OFFSET_X = {
+    TOPRIGHT = -20,
+    BOTTOMRIGHT = -20,
+}
+
+local DEFAULT_OFFSET_Y = {
+    TOPRIGHT = -30,
+    BOTTOMRIGHT = 30,
+}
+
+local DATABASE_DEFAULTS = {
+    global = {
+        addons = {
+            ["*"] = {
+                show = true,
+                mute = false,
+                known = false,
             },
         },
-    }
-    db = LibStub("AceDB-3.0"):New(("%sSettings"):format(ADDON_NAME), database_defaults, "Default")
+        display = {
+            anchor = {
+                point = _G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT",
+                scale = 1,
+                y = DEFAULT_OFFSET_Y[_G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT"],
+                x = DEFAULT_OFFSET_X[_G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT"],
+            },
+            background = {
+                ["*"] = DEFAULT_BACKGROUND_COLORS,
+            },
+            custom_anchor = "false",
+            duration = 5,
+            icon_size = 30,
+            floating_icon = false,
+            opacity = 0.75,
+            text = {
+                ["*"] = DEFAULT_TEXT_COLORS,
+            },
+            title = {
+                ["*"] = DEFAULT_TITLE_COLORS,
+            },
+        },
+        general = {
+            hide_toasts = false,
+            minimap_icon = {
+                hide = false,
+            },
+        },
+    },
+}
+
+private.DATABASE_DEFAULTS = DATABASE_DEFAULTS
+
+function Toaster:OnInitialize()
+    db = LibStub("AceDB-3.0"):New(("%sSettings"):format(ADDON_NAME), DATABASE_DEFAULTS, "Default")
     private.db = db
 
     LDBIcon:Register(ADDON_NAME, LibStub("LibDataBroker-1.1", true):NewDataObject(ADDON_NAME,

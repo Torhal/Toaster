@@ -6,7 +6,7 @@
 ## X-Date: @project-date-iso@
 ## X-Email: jcallahan@curse.com
 ## X-Category: Professions
-## OptionalDeps: Ace3, LibToast-1.0
+## OptionalDeps: Ace3, LibToast-1.0, LibWindow-1.1
 ## SavedVariables: ToasterSettings
 
 # LoadManagers: AddonLoader
