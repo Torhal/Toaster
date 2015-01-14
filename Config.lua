@@ -483,6 +483,7 @@ local function DisplayOptions()
                 end,
                 set = function(info, value)
                     db.global.display.anchor.point = SPAWN_POINTS[value]
+                    LibWindow.RestorePosition(anchorFrame)
                 end,
                 values = LOCALIZED_SPAWN_POINTS,
             },
