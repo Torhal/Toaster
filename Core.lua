@@ -169,10 +169,10 @@ local DATABASE_DEFAULTS = {
         },
         display = {
             anchor = {
-                point = _G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT",
+                point = "TOPRIGHT",
                 scale = 1,
-                y = DEFAULT_OFFSET_Y[_G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT"],
-                x = DEFAULT_OFFSET_X[_G.IsMacClient() and "TOPRIGHT" or "BOTTOMRIGHT"],
+                y = DEFAULT_OFFSET_Y["TOPRIGHT"],
+                x = DEFAULT_OFFSET_X["TOPRIGHT"],
             },
             background = {
                 ["*"] = DEFAULT_BACKGROUND_COLORS,
