@@ -177,7 +177,6 @@ local DATABASE_DEFAULTS = {
             background = {
                 ["*"] = DEFAULT_BACKGROUND_COLORS,
             },
-            custom_anchor = "false",
             duration = 5,
             icon_size = 30,
             floating_icon = false,
