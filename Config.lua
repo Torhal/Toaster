@@ -15,6 +15,7 @@ local ADDON_NAME, private = ...
 
 local LibStub = _G.LibStub
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local LDBIcon = LibStub("LibDBIcon-1.0")
 local LibToast = LibStub("LibToast-1.0", true)
@@ -575,5 +576,5 @@ function Toaster:SetupOptions()
     end)
 
     AceConfigRegistry:RegisterOptionsTable(ADDON_NAME, Options)
-    self.options_frame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(ADDON_NAME)
+    self.OptionsFrame = AceConfigDialog:AddToBlizOptions(ADDON_NAME)
 end

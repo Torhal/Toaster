@@ -209,12 +209,11 @@ function Toaster:OnInitialize()
             label = ADDON_NAME,
             icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
             OnClick = function(display, button)
-                local options_frame = _G.InterfaceOptionsFrame
-
-                if options_frame:IsVisible() then
-                    options_frame:Hide()
+                local optionsFrame = _G.InterfaceOptionsFrame
+                if optionsFrame:IsVisible() then
+                    optionsFrame:Hide()
                 else
-                    _G.InterfaceOptionsFrame_OpenToCategory(Toaster.options_frame)
+                    _G.InterfaceOptionsFrame_OpenToCategory(self.OptionsFrame)
                 end
             end,
         }), db.global.general.minimap_icon)
@@ -223,12 +222,11 @@ function Toaster:OnInitialize()
 
     self:SetupOptions()
     self:RegisterChatCommand("toaster", function(args)
-        local options_frame = _G.InterfaceOptionsFrame
-
-        if options_frame:IsVisible() then
-            options_frame:Hide()
+        local optionsFrame = _G.InterfaceOptionsFrame
+        if optionsFrame:IsVisible() then
+            optionsFrame:Hide()
         else
-            _G.InterfaceOptionsFrame_OpenToCategory(self.options_frame)
+            _G.InterfaceOptionsFrame_OpenToCategory(self.OptionsFrame)
         end
     end)
 end
