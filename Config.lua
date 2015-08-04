@@ -137,7 +137,7 @@ local function AddOnOptions()
     end
     addon_options = {
         order = 1,
-        name = _G.MESSAGE_SOURCES,
+        name = _G.ADDONS,
         type = "group",
         childGroups = "tab",
         args = {
