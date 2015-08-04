@@ -553,14 +553,19 @@ local function Options()
             type = "group",
             childGroups = "tab",
             args = {
-                addon_options = AddOnOptions(),
-                color_options = ColorOptions(),
                 display_options = DisplayOptions(),
                 general_options = GeneralOptions(),
             }
         }
     end
     return options
+end
+
+
+local function SetupSuboptions(label, optionsTable)
+    local optionsName = ADDON_NAME .. ":" .. label
+    AceConfigRegistry:RegisterOptionsTable(optionsName, optionsTable)
+    return AceConfigDialog:AddToBlizOptions(optionsName, optionsTable.name or label, ADDON_NAME)
 end
 
 function Toaster:SetupOptions()
@@ -577,4 +582,6 @@ function Toaster:SetupOptions()
 
     AceConfigRegistry:RegisterOptionsTable(ADDON_NAME, Options)
     self.OptionsFrame = AceConfigDialog:AddToBlizOptions(ADDON_NAME)
+    self.AddOnsOptions = SetupSuboptions("AddOns", AddOnOptions())
+    self.ColorOptions = SetupSuboptions("Color", ColorOptions())
 end
