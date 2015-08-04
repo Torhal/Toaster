@@ -52,11 +52,11 @@ local function PopulateAddOnNames()
     end
 end
 
-local function RegisterAddOn(source_addon)
-    if source_addon == ADDON_NAME or db.global.addons[source_addon].known then
+local function RegisterAddOn(addonName)
+    if addonName == ADDON_NAME or db.global.addons[addonName].known then
         return false
     end
-    db.global.addons[source_addon].known = true
+    db.global.addons[addonName].known = true
 
     PopulateAddOnNames()
     LibStub("AceConfigRegistry-3.0"):NotifyChange(ADDON_NAME)
@@ -127,22 +127,22 @@ function Toaster:HideToasts()
     return db.global.general.hide_toasts
 end
 
-function Toaster:HideToastsFromSource(source_addon)
-    if not source_addon or RegisterAddOn(source_addon) then
+function Toaster:HideToastsFromSource(addonName)
+    if not addonName or RegisterAddOn(addonName) then
         return false
     end
-    return not db.global.addons[source_addon].show
+    return not db.global.addons[addonName].show
 end
 
 function Toaster:MuteToasts()
     return db.global.general.mute_toasts
 end
 
-function Toaster:MuteToastsFromSource(source_addon)
-    if not source_addon or RegisterAddOn(source_addon) then
+function Toaster:MuteToastsFromSource(addonName)
+    if not addonName or RegisterAddOn(addonName) then
         return false
     end
-    return db.global.addons[source_addon].mute
+    return db.global.addons[addonName].mute
 end
 
 -----------------------------------------------------------------------
