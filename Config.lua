@@ -51,6 +51,8 @@ for index = 1, #SPAWN_POINTS do
     SPAWN_INDICES[SPAWN_POINTS[index]] = index
 end
 
+local TOAST_MAX_DURATION = 120
+
 -------------------------------------------------------------------------------
 -- Variables.
 -------------------------------------------------------------------------------
@@ -396,7 +398,7 @@ local function DisplayOptions()
                 type = "range",
                 width = "full",
                 min = 5,
-                max = 30,
+                max = TOAST_MAX_DURATION,
                 step = 0.25,
                 get = function()
                     return db.global.display.duration
