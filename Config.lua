@@ -192,57 +192,6 @@ local AddOnOptions = {
     args = {},
 }
 
-local general_options
-
-local function GeneralOptions()
-    if general_options then
-        return general_options
-    end
-    general_options = {
-        order = 3,
-        name = _G.GENERAL,
-        type = "group",
-        args = {
-            minimap_icon = {
-                order = 10,
-                type = "toggle",
-                name = L["Show Minimap Icon"],
-                get = function(info)
-                    return not db.global.general.minimap_icon.hide
-                end,
-                set = function(info, value)
-                    db.global.general.minimap_icon.hide = not value
-                    LDBIcon[value and "Show" or "Hide"](LDBIcon, ADDON_NAME)
-                end,
-            },
-            hide_toasts = {
-                order = 20,
-                type = "toggle",
-                name = L["Hide Toasts"],
-                get = function(info)
-                    return db.global.general.hide_toasts
-                end,
-                set = function(info, value)
-                    db.global.general.hide_toasts = value
-                end,
-            },
-            mute_toasts = {
-                order = 30,
-                type = "toggle",
-                name = L["Mute Toasts"],
-                get = function(info)
-                    return db.global.general.mute_toasts
-                end,
-                set = function(info, value)
-                    db.global.general.mute_toasts = value
-                end,
-            },
-        },
-    }
-    return general_options
-end
-
-
 local function ColorDefinition(order, category, reference)
     local name = L[category:lower():gsub("^%l", _G.string.upper):gsub("_", " "):gsub(" %l", _G.string.upper)]
 
@@ -386,20 +335,54 @@ local function ColorOptions()
     return color_options
 end
 
-local display_options
+local defaultOptions
 
-local function DisplayOptions()
-    if display_options then
-        return display_options
+local function DefaultOptions()
+    if defaultOptions then
+        return defaultOptions
     end
 
-    display_options = {
+    defaultOptions = {
         order = 3,
-        name = _G.DISPLAY,
+        name = _G.DEFAULTS,
         type = "group",
         args = {
-            opacity = {
+            minimap_icon = {
                 order = 10,
+                type = "toggle",
+                name = L["Show Minimap Icon"],
+                get = function(info)
+                    return not db.global.general.minimap_icon.hide
+                end,
+                set = function(info, value)
+                    db.global.general.minimap_icon.hide = not value
+                    LDBIcon[value and "Show" or "Hide"](LDBIcon, ADDON_NAME)
+                end,
+            },
+            hide_toasts = {
+                order = 20,
+                type = "toggle",
+                name = L["Hide Toasts"],
+                get = function(info)
+                    return db.global.general.hide_toasts
+                end,
+                set = function(info, value)
+                    db.global.general.hide_toasts = value
+                end,
+            },
+            mute_toasts = {
+                order = 30,
+                type = "toggle",
+                name = L["Mute Toasts"],
+                get = function(info)
+                    return db.global.general.mute_toasts
+                end,
+                set = function(info, value)
+                    db.global.general.mute_toasts = value
+                end,
+            },
+            opacity = {
+                order = 40,
                 name = _G.OPACITY,
                 type = "range",
                 width = "full",
@@ -415,13 +398,13 @@ local function DisplayOptions()
                 end,
             },
             empty_1 = {
-                order = 11,
+                order = 41,
                 type = "description",
                 width = "full",
                 name = "",
             },
             duration = {
-                order = 12,
+                order = 42,
                 name = _G.TOAST_DURATION_TEXT,
                 type = "range",
                 width = "full",
@@ -436,13 +419,13 @@ local function DisplayOptions()
                 end,
             },
             empty_2 = {
-                order = 13,
+                order = 43,
                 type = "description",
                 width = "full",
                 name = "",
             },
             icon_size = {
-                order = 14,
+                order = 44,
                 name = L["Icon Size"],
                 type = "range",
                 min = 10,
@@ -456,7 +439,7 @@ local function DisplayOptions()
                 end,
             },
             floating_icon = {
-                order = 20,
+                order = 50,
                 name = L["Floating Icon"],
                 type = "toggle",
                 get = function()
@@ -467,13 +450,13 @@ local function DisplayOptions()
                 end,
             },
             empty_3 = {
-                order = 21,
+                order = 51,
                 type = "description",
                 width = "full",
                 name = " ",
             },
             spawn_point = {
-                order = 30,
+                order = 60,
                 type = "select",
                 name = L["Spawn Point"],
                 get = function()
@@ -486,7 +469,7 @@ local function DisplayOptions()
                 values = LOCALIZED_SPAWN_POINTS,
             },
             x = {
-                order = 40,
+                order = 70,
                 type = "input",
                 name = L["X Offset"],
                 desc = L["Horizontal offset from the anchor point."],
@@ -500,7 +483,7 @@ local function DisplayOptions()
                 dialogControl = "NumberEditBox",
             },
             y = {
-                order = 50,
+                order = 80,
                 type = "input",
                 name = L["Y Offset"],
                 desc = L["Vertical offset from the anchor point."],
@@ -514,13 +497,13 @@ local function DisplayOptions()
                 dialogControl = "NumberEditBox",
             },
             empty_4 = {
-                order = 51,
+                order = 81,
                 type = "description",
                 width = "full",
                 name = " ",
             },
             reset = {
-                order = 60,
+                order = 90,
                 type = "execute",
                 name = L["Reset Position"],
                 func = function()
@@ -529,7 +512,7 @@ local function DisplayOptions()
                 end,
             },
             show_anchor = {
-                order = 70,
+                order = 100,
                 type = "execute",
                 name = L["Show Anchor"],
                 func = function()
@@ -538,7 +521,7 @@ local function DisplayOptions()
             },
         },
     }
-    return display_options
+    return defaultOptions
 end
 
 local options
@@ -550,8 +533,7 @@ local function Options()
             type = "group",
             childGroups = "tab",
             args = {
-                display_options = DisplayOptions(),
-                general_options = GeneralOptions(),
+                defaultOptions = DefaultOptions(),
             }
         }
     end
