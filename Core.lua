@@ -66,6 +66,8 @@ local function RegisterAddOn(addonName)
     if addonName == ADDON_NAME or AddOnObjects[addonName] then
         return false
     end
+    db.global.addons[addonName].known = true
+
     PopulateAddOnNames()
     Toaster:UpdateAddOnOptions()
 
@@ -172,6 +174,7 @@ local DATABASE_DEFAULTS = {
             ["*"] = {
                 enabled = true,
                 mute = false,
+                known = false,
             },
         },
         display = {
