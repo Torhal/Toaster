@@ -53,7 +53,6 @@ local function PopulateAddOnNames()
             data.enabled = data.show
             data.show = nil
         end
-        data.known = nil
         -- End migration.
 
         AddOnObjects[addonName] = AddOnObjects[addonName] or {
@@ -174,6 +173,8 @@ local DATABASE_DEFAULTS = {
             ["*"] = {
                 enabled = true,
                 mute = false,
+
+                -- This is required so the AddOn stays in the SavedVariables table, and is hence visible in further sessions.
                 known = false,
             },
         },
