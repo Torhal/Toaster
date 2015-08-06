@@ -38,8 +38,8 @@ local DEFAULT_TEXT_COLORS = {
 -----------------------------------------------------------------------
 -- Variables
 -----------------------------------------------------------------------
-local addon_names = {}
-private.addon_names = addon_names
+local AddOnObjects = {}
+private.AddOnObjects = AddOnObjects
 
 local db
 
@@ -47,13 +47,15 @@ local db
 -- Helpers.
 -----------------------------------------------------------------------
 local function PopulateAddOnNames()
-    for addon_name, data in _G.pairs(db.global.addons) do
-        addon_names[addon_name] = addon_name
+    for addonName, data in _G.pairs(db.global.addons) do
+        AddOnObjects[addonName] = AddOnObjects[addonName] or {
+            name = addonName
+        }
     end
 end
 
 local function RegisterAddOn(addonName)
-    if addonName == ADDON_NAME or db.global.addons[addonName].known then
+    if addonName == ADDON_NAME or AddOnObjects[addonName] then
         return false
     end
     db.global.addons[addonName].known = true
