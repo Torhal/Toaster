@@ -58,8 +58,6 @@ local function RegisterAddOn(addonName)
     if addonName == ADDON_NAME or AddOnObjects[addonName] then
         return false
     end
-    db.global.addons[addonName].known = true
-
     PopulateAddOnNames()
     LibStub("AceConfigRegistry-3.0"):NotifyChange(ADDON_NAME)
 
@@ -166,7 +164,6 @@ local DATABASE_DEFAULTS = {
             ["*"] = {
                 show = true,
                 mute = false,
-                known = false,
             },
         },
         display = {
