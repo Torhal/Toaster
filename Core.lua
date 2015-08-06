@@ -108,20 +108,24 @@ function Toaster:Backdrop()
 
 end
 
-function Toaster:Duration()
-    return db.global.display.duration
+function Toaster:Duration(addonName)
+    local addon = addonName and db.global.addons[addonName] or nil
+    return addon and addon.duration or db.global.display.duration
 end
 
-function Toaster:FloatingIcon()
-    return db.global.display.floating_icon
+function Toaster:FloatingIcon(addonName)
+    local addon = addonName and db.global.addons[addonName] or nil
+    return addon and addon.floating_icon or db.global.display.floating_icon
 end
 
-function Toaster:IconSize()
-    return db.global.display.icon_size
+function Toaster:IconSize(addonName)
+    local addon = addonName and db.global.addons[addonName] or nil
+    return addon and addon.icon_size or db.global.display.icon_size
 end
 
-function Toaster:Opacity()
-    return db.global.display.opacity
+function Toaster:Opacity(addonName)
+    local addon = addonName and db.global.addons[addonName] or nil
+    return addon and addon.opacity or db.global.display.opacity
 end
 
 function Toaster:BackgroundColors(urgency)
@@ -173,6 +177,11 @@ local DATABASE_DEFAULTS = {
             ["*"] = {
                 enabled = true,
                 mute = false,
+
+                duration = 5,
+                icon_size = 30,
+                floating_icon = false,
+                opacity = 0.75,
 
                 -- This is required so the AddOn stays in the SavedVariables table, and is hence visible in further sessions.
                 known = false,

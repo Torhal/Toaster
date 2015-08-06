@@ -146,6 +146,34 @@ local AddOnOptionArgs = {
         order = 2,
         type = "toggle",
     },
+    opacity = {
+        name = _G.OPACITY,
+        type = "range",
+        width = "full",
+        min = 0,
+        max = 1,
+        step = 0.05,
+        isPercent = true,
+    },
+    duration = {
+        name = _G.TOAST_DURATION_TEXT,
+        type = "range",
+        width = "full",
+        min = 5,
+        max = TOAST_MAX_DURATION,
+        step = 0.25,
+    },
+    icon_size = {
+        name = L["Icon Size"],
+        type = "range",
+        min = 10,
+        max = 30,
+        step = 1,
+    },
+    floating_icon = {
+        name = L["Floating Icon"],
+        type = "toggle",
+    },
 }
 
 local AddOnOptions = {
