@@ -4,7 +4,10 @@
 local _G = getfenv(0)
 
 local math = _G.math
+local string = _G.string
+local table = _G.table
 
+local pairs = _G.pairs
 local tonumber = _G.tonumber
 local tostring = _G.tostring
 
@@ -23,7 +26,7 @@ local LibWindow = LibStub("LibWindow-1.1")
 local Toaster = LibStub("AceAddon-3.0"):GetAddon(ADDON_NAME)
 
 local db
-local addon_names = private.addon_names
+local AddOnObjects = private.AddOnObjects
 
 -------------------------------------------------------------------------------
 -- Constants.
@@ -130,58 +133,45 @@ local function CreateAnchorFrame()
     return anchorFrame
 end
 
-local addon_options
-
-local function AddOnOptions()
-    if addon_options then
-        return addon_options
-    end
-    addon_options = {
+local AddOnOptionArgs = {
+    show = {
+        name = _G.SHOW,
         order = 1,
-        name = _G.ADDONS,
-        type = "group",
-        childGroups = "tab",
-        args = {
-            show = {
-                name = _G.SHOW,
-                order = 1,
-                type = "group",
-                args = {
-                    entries = {
-                        name = _G.ADDONS,
-                        type = "multiselect",
-                        values = addon_names,
-                        get = function(info, addon_name)
-                            return db.global.addons[addon_name].show
-                        end,
-                        set = function(info, addon_name, value)
-                            db.global.addons[addon_name].show = value
-                        end,
-                    },
-                },
-            },
-            mute = {
-                name = _G.MUTE,
-                order = 2,
-                type = "group",
-                args = {
-                    entries = {
-                        name = _G.ADDONS,
-                        type = "multiselect",
-                        values = addon_names,
-                        get = function(info, addon_name)
-                            return db.global.addons[addon_name].mute
-                        end,
-                        set = function(info, addon_name, value)
-                            db.global.addons[addon_name].mute = value
-                        end,
-                    },
-                },
-            },
-        },
-    }
-    return addon_options
-end
+        type = "toggle",
+        get = function(info)
+            local addon_name = info[1]
+            return db.global.addons[addon_name].show
+        end,
+        set = function(info, value)
+            local addon_name = info[1]
+            db.global.addons[addon_name].show = value
+            Toaster:UpdateAddOnOptions()
+        end,
+    },
+    mute = {
+        name = _G.MUTE,
+        order = 2,
+        type = "toggle",
+        get = function(info)
+            local addon_name = info[1]
+            return db.global.addons[addon_name].mute
+        end,
+        set = function(info, value)
+            local addon_name = info[1]
+            db.global.addons[addon_name].mute = value
+        end,
+    },
+}
+
+local AddOnOptions = {
+    inline = true,
+    name = _G.ADDONS,
+    order = 1,
+    type = "group",
+    childGroups = "tree",
+    args = {},
+}
+
 
 local general_options
 
@@ -206,12 +196,6 @@ local function GeneralOptions()
                     LDBIcon[value and "Show" or "Hide"](LDBIcon, ADDON_NAME)
                 end,
             },
-            empty_2 = {
-                order = 11,
-                type = "description",
-                width = "full",
-                name = "",
-            },
             hide_toasts = {
                 order = 20,
                 type = "toggle",
@@ -222,12 +206,6 @@ local function GeneralOptions()
                 set = function(info, value)
                     db.global.general.hide_toasts = value
                 end,
-            },
-            empty_3 = {
-                order = 21,
-                type = "description",
-                width = "full",
-                name = " ",
             },
             mute_toasts = {
                 order = 30,
@@ -582,6 +560,44 @@ function Toaster:SetupOptions()
 
     AceConfigRegistry:RegisterOptionsTable(ADDON_NAME, Options)
     self.OptionsFrame = AceConfigDialog:AddToBlizOptions(ADDON_NAME)
-    self.AddOnsOptions = SetupSuboptions("AddOns", AddOnOptions())
+    self.AddOnsOptions = SetupSuboptions("AddOns", AddOnOptions)
     self.ColorOptions = SetupSuboptions("Color", ColorOptions())
+end
+
+local SortedAddOns = {}
+
+local function SortAddOnsByNameAndShown(a, b)
+    local addonA = db.global.addons[a.name]
+    local addonB = db.global.addons[b.name]
+
+    if addonA.show then
+        return not addonB.show or a.name < b.name
+    else
+        return not addonB.show and a.name < b.name
+    end
+end
+
+function Toaster:UpdateAddOnOptions()
+    table.wipe(AddOnOptions.args)
+    table.wipe(SortedAddOns)
+
+    for name, data in pairs(private.AddOnObjects) do
+        SortedAddOns[#SortedAddOns + 1] = data
+    end
+    table.sort(SortedAddOns, SortAddOnsByNameAndShown)
+
+    for index = 1, #SortedAddOns do
+        local addOn = SortedAddOns[index]
+        if not addOn.options then
+            addOn.options = {
+                type = "group",
+                args = AddOnOptionArgs,
+            }
+        end
+        addOn.options.name = string.format("%s%s", db.global.addons[addOn.name].show and _G.GREEN_FONT_COLOR_CODE or _G.RED_FONT_COLOR_CODE, addOn.name)
+        addOn.options.order = index
+        AddOnOptions.args[addOn.name] = addOn.options
+    end
+
+    AceConfigRegistry:NotifyChange(ADDON_NAME .. ":AddOns")
 end

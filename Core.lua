@@ -59,7 +59,7 @@ local function RegisterAddOn(addonName)
         return false
     end
     PopulateAddOnNames()
-    LibStub("AceConfigRegistry-3.0"):NotifyChange(ADDON_NAME)
+    Toaster:UpdateAddOnOptions()
 
     return true
 end
@@ -217,9 +217,12 @@ function Toaster:OnInitialize()
             end,
         }), db.global.general.minimap_icon)
 
-    PopulateAddOnNames()
 
     self:SetupOptions()
+
+    PopulateAddOnNames()
+    self:UpdateAddOnOptions()
+
     self:RegisterChatCommand("toaster", function(args)
         local optionsFrame = _G.InterfaceOptionsFrame
         if optionsFrame:IsVisible() then
