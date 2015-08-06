@@ -48,6 +48,14 @@ local db
 -----------------------------------------------------------------------
 local function PopulateAddOnNames()
     for addonName, data in _G.pairs(db.global.addons) do
+        -- Migration.
+        if type(data.show) == "boolean" then
+            data.enabled = data.show
+            data.show = nil
+        end
+        data.known = nil
+        -- End migration.
+
         AddOnObjects[addonName] = AddOnObjects[addonName] or {
             name = addonName
         }
@@ -131,7 +139,7 @@ function Toaster:HideToastsFromSource(addonName)
     if not addonName or RegisterAddOn(addonName) then
         return false
     end
-    return not db.global.addons[addonName].show
+    return not db.global.addons[addonName].enabled
 end
 
 function Toaster:MuteToasts()
@@ -162,7 +170,7 @@ local DATABASE_DEFAULTS = {
     global = {
         addons = {
             ["*"] = {
-                show = true,
+                enabled = true,
                 mute = false,
             },
         },

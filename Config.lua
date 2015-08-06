@@ -134,17 +134,17 @@ local function CreateAnchorFrame()
 end
 
 local AddOnOptionArgs = {
-    show = {
-        name = _G.SHOW,
+    enabled = {
+        name = _G.ENABLE,
         order = 1,
         type = "toggle",
         get = function(info)
             local addon_name = info[1]
-            return db.global.addons[addon_name].show
+            return db.global.addons[addon_name].enabled
         end,
         set = function(info, value)
             local addon_name = info[1]
-            db.global.addons[addon_name].show = value
+            db.global.addons[addon_name].enabled = value
             Toaster:UpdateAddOnOptions()
         end,
     },
@@ -566,14 +566,14 @@ end
 
 local SortedAddOns = {}
 
-local function SortAddOnsByNameAndShown(a, b)
+local function SortAddOnsByNameAndEnabled(a, b)
     local addonA = db.global.addons[a.name]
     local addonB = db.global.addons[b.name]
 
-    if addonA.show then
-        return not addonB.show or a.name < b.name
+    if addonA.enabled then
+        return not addonB.enabled or a.name < b.name
     else
-        return not addonB.show and a.name < b.name
+        return not addonB.enabled and a.name < b.name
     end
 end
 
@@ -584,7 +584,7 @@ function Toaster:UpdateAddOnOptions()
     for name, data in pairs(private.AddOnObjects) do
         SortedAddOns[#SortedAddOns + 1] = data
     end
-    table.sort(SortedAddOns, SortAddOnsByNameAndShown)
+    table.sort(SortedAddOns, SortAddOnsByNameAndEnabled)
 
     for index = 1, #SortedAddOns do
         local addOn = SortedAddOns[index]
@@ -594,7 +594,7 @@ function Toaster:UpdateAddOnOptions()
                 args = AddOnOptionArgs,
             }
         end
-        addOn.options.name = string.format("%s%s", db.global.addons[addOn.name].show and _G.GREEN_FONT_COLOR_CODE or _G.RED_FONT_COLOR_CODE, addOn.name)
+        addOn.options.name = string.format("%s%s", db.global.addons[addOn.name].enabled and _G.GREEN_FONT_COLOR_CODE or _G.RED_FONT_COLOR_CODE, addOn.name)
         addOn.options.order = index
         AddOnOptions.args[addOn.name] = addOn.options
     end
