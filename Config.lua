@@ -138,28 +138,11 @@ local AddOnOptionArgs = {
         name = _G.ENABLE,
         order = 1,
         type = "toggle",
-        get = function(info)
-            local addon_name = info[1]
-            return db.global.addons[addon_name].enabled
-        end,
-        set = function(info, value)
-            local addon_name = info[1]
-            db.global.addons[addon_name].enabled = value
-            Toaster:UpdateAddOnOptions()
-        end,
     },
     mute = {
         name = _G.MUTE,
         order = 2,
         type = "toggle",
-        get = function(info)
-            local addon_name = info[1]
-            return db.global.addons[addon_name].mute
-        end,
-        set = function(info, value)
-            local addon_name = info[1]
-            db.global.addons[addon_name].mute = value
-        end,
     },
 }
 
@@ -169,9 +152,15 @@ local AddOnOptions = {
     order = 1,
     type = "group",
     childGroups = "tree",
+    get = function(info)
+        return db.global.addons[info[1]][info[2]]
+    end,
+    set = function(info, value)
+        db.global.addons[info[1]][info[2]] = value
+        Toaster:UpdateAddOnOptions()
+    end,
     args = {},
 }
-
 
 local general_options
 
