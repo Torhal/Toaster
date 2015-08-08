@@ -95,23 +95,23 @@ function Toaster:Backdrop()
 end
 
 function Toaster:Duration(addonName)
-    local addon = addonName and db.global.addons[addonName] or nil
-    return addon and addon.duration or db.global.display.duration
+    local addon = addonName and db.global.addons[addonName]
+    return (addon and addon.known) and addon.duration or db.global.display.duration
 end
 
 function Toaster:FloatingIcon(addonName)
-    local addon = addonName and db.global.addons[addonName] or nil
-    return addon and addon.floating_icon or db.global.display.floating_icon
+    local addon = addonName and db.global.addons[addonName]
+    return (addon and addon.known) and addon.floating_icon or db.global.display.floating_icon
 end
 
 function Toaster:IconSize(addonName)
-    local addon = addonName and db.global.addons[addonName] or nil
-    return addon and addon.icon_size or db.global.display.icon_size
+    local addon = addonName and db.global.addons[addonName]
+    return (addon and addon.known) and addon.icon_size or db.global.display.icon_size
 end
 
 function Toaster:Opacity(addonName)
-    local addon = addonName and db.global.addons[addonName] or nil
-    return addon and addon.opacity or db.global.display.opacity
+    local addon = addonName and db.global.addons[addonName]
+    return (addon and addon.known) and addon.opacity or db.global.display.opacity
 end
 
 function Toaster:BackgroundColors(urgency)
