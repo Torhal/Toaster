@@ -46,28 +46,14 @@ local db
 -----------------------------------------------------------------------
 -- Helpers.
 -----------------------------------------------------------------------
-local function PopulateAddOnNames()
-    for addonName, data in _G.pairs(db.global.addons) do
-        -- Migration.
-        if type(data.show) == "boolean" then
-            data.enabled = data.show
-            data.show = nil
-        end
-        -- End migration.
-
-        AddOnObjects[addonName] = AddOnObjects[addonName] or {
-            name = addonName
-        }
-    end
-end
-
 local function RegisterAddOn(addonName)
     if addonName == ADDON_NAME or AddOnObjects[addonName] then
         return false
     end
-    db.global.addons[addonName].known = true
 
-    PopulateAddOnNames()
+    db.global.addons[addonName].known = true
+    AddOnObjects[addonName] = { name = addonName }
+
     Toaster:UpdateAddOnOptions()
 
     return true
@@ -238,10 +224,18 @@ function Toaster:OnInitialize()
             end,
         }), db.global.general.minimap_icon)
 
+    for addonName, data in _G.pairs(db.global.addons) do
+        -- Migration.
+        if _G.type(data.show) == "boolean" then
+            data.enabled = data.show
+            data.show = nil
+        end
+        -- End migration.
+
+        AddOnObjects[addonName] = { name = addonName }
+    end
 
     self:SetupOptions()
-
-    PopulateAddOnNames()
     self:UpdateAddOnOptions()
 
     self:RegisterChatCommand("toaster", function(args)
