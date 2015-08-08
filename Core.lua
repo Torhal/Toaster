@@ -47,7 +47,7 @@ local db
 -- Helpers.
 -----------------------------------------------------------------------
 local function RegisterAddOn(addonName)
-    if addonName == ADDON_NAME or AddOnObjects[addonName] then
+    if addonName == ADDON_NAME or addonName == "LibToast-1.0" or AddOnObjects[addonName] then
         return false
     end
 
@@ -223,6 +223,10 @@ function Toaster:OnInitialize()
                 end
             end,
         }), db.global.general.minimap_icon)
+
+    -- Make sure this doesn't exist, since earlier versions allowed it.
+    -- TODO: Remove this after a few months.
+    db.global.addons["LibToast-1.0"] = nil
 
     for addonName, data in _G.pairs(db.global.addons) do
         -- Migration.
