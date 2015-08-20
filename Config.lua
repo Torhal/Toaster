@@ -177,7 +177,6 @@ local AddOnOptionArgs = {
 }
 
 local AddOnOptions = {
-    inline = true,
     name = _G.ADDONS,
     order = 1,
     type = "group",
@@ -480,7 +479,7 @@ local function DefaultOptions()
                     db.global.display.anchor.x = tonumber(value)
                     LibWindow.RestorePosition(anchorFrame)
                 end,
-                dialogControl = "NumberEditBox",
+                dialogControl = "EditBox",
             },
             y = {
                 order = 80,
@@ -494,7 +493,7 @@ local function DefaultOptions()
                     db.global.display.anchor.y = tonumber(value)
                     LibWindow.RestorePosition(anchorFrame)
                 end,
-                dialogControl = "NumberEditBox",
+                dialogControl = "EditBox",
             },
             empty_4 = {
                 order = 81,
@@ -533,6 +532,7 @@ local function Options()
             type = "group",
             childGroups = "tab",
             args = {
+                addOnsOptions = AddOnOptions,
                 defaultOptions = DefaultOptions(),
             }
         }
@@ -561,7 +561,6 @@ function Toaster:SetupOptions()
 
     AceConfigRegistry:RegisterOptionsTable(ADDON_NAME, Options)
     self.OptionsFrame = AceConfigDialog:AddToBlizOptions(ADDON_NAME)
-    self.AddOnsOptions = SetupSuboptions("AddOns", AddOnOptions)
     self.ColorOptions = SetupSuboptions("Color", ColorOptions())
 end
 
