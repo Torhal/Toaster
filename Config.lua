@@ -182,10 +182,10 @@ local AddOnOptions = {
     type = "group",
     childGroups = "tree",
     get = function(info)
-        return db.global.addons[info[1]][info[2]]
+        return db.global.addons[info[2]][info[3]]
     end,
     set = function(info, value)
-        db.global.addons[info[1]][info[2]] = value
+        db.global.addons[info[2]][info[3]] = value
         Toaster:UpdateAddOnOptions()
     end,
     args = {},
