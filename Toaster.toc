@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70200
 ## Title: Toaster
 ## Notes: Configuration for LibToast notifications.
 ## Author: Torhal
