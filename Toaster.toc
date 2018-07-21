@@ -9,12 +9,7 @@
 ## OptionalDeps: Ace3, LibToast-1.0, LibWindow-1.1
 ## SavedVariables: ToasterSettings
 
-# LoadManagers: AddonLoader
-# X-LoadOn-Always: Delayed
-
-#@no-lib-strip@
 embeds.xml
-#@end-no-lib-strip@
 
 #@debug@
 Localization\devel-enUS.lua
