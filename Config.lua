@@ -67,7 +67,7 @@ local function round(num, idp)
 end
 
 local function CreateAnchorFrame()
-    local anchorFrame = _G.CreateFrame("Frame", nil, _G.UIParent)
+    local anchorFrame = _G.CreateFrame("Frame", nil, _G.UIParent, _G.BackdropTemplateMixin and "BackdropTemplate")
     anchorFrame:SetSize(250, 50)
     anchorFrame:SetFrameStrata("DIALOG")
     anchorFrame:SetBackdrop({
