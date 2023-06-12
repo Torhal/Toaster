@@ -6,38 +6,37 @@ ignore:
   - Localization/devel-enUS.lua
 
 externals:
-    Libs/LibStub:
-        url: svn://svn.wowace.com/wow/libstub/mainline/trunk
-        tag: latest
-    Libs/CallbackHandler-1.0:
-        url: svn://svn.wowace.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
-        tag: latest
-    Libs/AceAddOn-3.0:
-        url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceAddon-3.0
-        tag: latest
-    Libs/AceConfig-3.0:
-        url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceConfig-3.0
-        tag: latest
-    Libs/AceConsole-3.0:
-        url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceConsole-3.0
-        tag: latest
-    Libs/AceDB-3.0:
-        url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceDB-3.0
-        tag: latest
-    Libs/AceGUI-3.0:
-        url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceGUI-3.0
-        tag: latest
-    Libs/AceLocale-3.0:
-        url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceLocale-3.0
-        tag: latest
-	Libs/LibDataBroker-1.1:
-		url: git://git.wowace.com/wow/libdatabroker-1-1/mainline.git
-		tag: latest
-	Libs/LibDBIcon-1.0:
-		url: svn://svn.wowace.com/wow/libdbicon-1-0/mainline/trunk/LibDBIcon-1.0
-		tag: latest
-	Libs/LibToast-1.0:
-		url: https://repos.wowace.com/wow/libtoast-1-0
-	Libs/LibWindow-1.1:
-		url: svn://svn.wowace.com/wow/libwindow-1-1/mainline/trunk/LibWindow-1.1
-
+  Libs/LibStub:
+    url: svn://repos.curseforge.com/wow/libstub/mainline/trunk
+    tag: latest
+  Libs/CallbackHandler-1.0:
+    url: svn://repos.curseforge.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
+    tag: latest
+  Libs/AceAddOn-3.0:
+    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceAddon-3.0
+    tag: latest
+  Libs/AceConfig-3.0:
+    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceConfig-3.0
+    tag: latest
+  Libs/AceConsole-3.0:
+    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceConsole-3.0
+    tag: latest
+  Libs/AceDB-3.0:
+    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceDB-3.0
+    tag: latest
+  Libs/AceGUI-3.0:
+    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceGUI-3.0
+    tag: latest
+  Libs/AceLocale-3.0:
+    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceLocale-3.0
+    tag: latest
+  Libs/LibDataBroker-1.1:
+    url: https://repos.curseforge.com/wow/libdatabroker-1-1
+    tag: latest
+  Libs/LibDBIcon-1.0:
+    url: https://repos.curseforge.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
+    tag: latest
+  Libs/LibToast-1.0:
+    url: https://repos.curseforge.com/wow/libtoast-1-0
+  Libs/LibWindow-1.1:
+    url: https://repos.curseforge.com/wow/libwindow-1-1/trunk/LibWindow-1.1
