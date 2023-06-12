@@ -214,14 +214,7 @@ function Toaster:OnInitialize()
             label = AddOnFolderName,
             icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
             OnClick = function(display, button)
-                local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-
-                if AceConfigDialog.OpenFrames[AddOnFolderName] then
-                    AceConfigDialog:Close(AddOnFolderName)
-                else
-                    AceConfigDialog:Open(AddOnFolderName)
-                    AceConfigDialog:SelectGroup(AddOnFolderName, "Tooltip", "General")
-                end
+                Toaster:ToggleOptionsVisibility()
             end,
         }),
         db.global.general.minimap_icon
@@ -246,15 +239,21 @@ function Toaster:OnInitialize()
     self:UpdateAddOnOptions()
 
     self:RegisterChatCommand("toaster", function(args)
-        local optionsFrame = _G.InterfaceOptionsFrame
-        if optionsFrame:IsVisible() then
-            optionsFrame:Hide()
-        else
-            _G.InterfaceOptionsFrame_OpenToCategory(self.OptionsFrame)
-        end
+        self:ToggleOptionsVisibility()
     end)
 end
 
 function Toaster:OnEnable() end
 
 function Toaster:OnDisable() end
+
+function Toaster:ToggleOptionsVisibility()
+    local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
+    if AceConfigDialog.OpenFrames[AddOnFolderName] then
+        AceConfigDialog:Close(AddOnFolderName)
+    else
+        AceConfigDialog:Open(AddOnFolderName)
+        AceConfigDialog:SelectGroup(AddOnFolderName, "defaultOptions")
+    end
+end
