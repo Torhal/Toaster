@@ -534,12 +534,11 @@ local function Options()
             args = {
                 addOnsOptions = AddOnOptions,
                 defaultOptions = DefaultOptions(),
-            }
+            },
         }
     end
     return options
 end
-
 
 local function SetupSuboptions(label, optionsTable)
     local optionsName = ADDON_NAME .. ":" .. label
@@ -594,7 +593,11 @@ function Toaster:UpdateAddOnOptions()
                 args = AddOnOptionArgs,
             }
         end
-        addOn.options.name = string.format("%s%s", db.global.addons[addOn.name].enabled and _G.GREEN_FONT_COLOR_CODE or _G.RED_FONT_COLOR_CODE, addOn.name)
+        addOn.options.name = string.format(
+            "%s%s",
+            db.global.addons[addOn.name].enabled and _G.GREEN_FONT_COLOR_CODE or _G.RED_FONT_COLOR_CODE,
+            addOn.name
+        )
         addOn.options.order = index
         AddOnOptions.args[addOn.name] = addOn.options
     end
