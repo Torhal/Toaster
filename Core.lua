@@ -6,12 +6,12 @@ local _G = getfenv(0)
 -----------------------------------------------------------------------
 -- AddOn namespace.
 -----------------------------------------------------------------------
-local ADDON_NAME, private = ...
+local AddOnFolderName, private = ...
 
 local LibStub = _G.LibStub
-local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
+local L = LibStub("AceLocale-3.0"):GetLocale(AddOnFolderName)
 local LDBIcon = LibStub("LibDBIcon-1.0")
-local Toaster = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME, "AceConsole-3.0")
+local Toaster = LibStub("AceAddon-3.0"):NewAddon(AddOnFolderName, "AceConsole-3.0")
 _G.Toaster = Toaster
 
 -----------------------------------------------------------------------
@@ -47,7 +47,7 @@ local db
 -- Helpers.
 -----------------------------------------------------------------------
 local function RegisterAddOn(addonName)
-    if addonName == ADDON_NAME or addonName == "LibToast-1.0" or AddOnObjects[addonName] then
+    if addonName == AddOnFolderName or addonName == "LibToast-1.0" or AddOnObjects[addonName] then
         return false
     end
 
@@ -204,21 +204,23 @@ local DATABASE_DEFAULTS = {
 private.DATABASE_DEFAULTS = DATABASE_DEFAULTS
 
 function Toaster:OnInitialize()
-    db = LibStub("AceDB-3.0"):New(("%sSettings"):format(ADDON_NAME), DATABASE_DEFAULTS, "Default")
+    db = LibStub("AceDB-3.0"):New(("%sSettings"):format(AddOnFolderName), DATABASE_DEFAULTS, "Default")
     private.db = db
 
     LDBIcon:Register(
-        ADDON_NAME,
-        LibStub("LibDataBroker-1.1", true):NewDataObject(ADDON_NAME, {
+        AddOnFolderName,
+        LibStub("LibDataBroker-1.1", true):NewDataObject(AddOnFolderName, {
             type = "launcher",
-            label = ADDON_NAME,
+            label = AddOnFolderName,
             icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
             OnClick = function(display, button)
-                local optionsFrame = _G.InterfaceOptionsFrame
-                if optionsFrame:IsVisible() then
-                    optionsFrame:Hide()
+                local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
+                if AceConfigDialog.OpenFrames[AddOnFolderName] then
+                    AceConfigDialog:Close(AddOnFolderName)
                 else
-                    _G.InterfaceOptionsFrame_OpenToCategory(self.OptionsFrame)
+                    AceConfigDialog:Open(AddOnFolderName)
+                    AceConfigDialog:SelectGroup(AddOnFolderName, "Tooltip", "General")
                 end
             end,
         }),
