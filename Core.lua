@@ -32,7 +32,7 @@ local DEFAULT_TITLE_COLORS = {
 local DEFAULT_TEXT_COLORS = {
     r = 0.486,
     g = 0.518,
-    b = 0.541
+    b = 0.541,
 }
 
 -----------------------------------------------------------------------
@@ -90,9 +90,7 @@ function Toaster:TextColors(urgency)
     return colors.r, colors.g, colors.b
 end
 
-function Toaster:Backdrop()
-
-end
+function Toaster:Backdrop() end
 
 function Toaster:Duration(addonName)
     local addon = addonName and db.global.addons[addonName]
@@ -209,8 +207,9 @@ function Toaster:OnInitialize()
     db = LibStub("AceDB-3.0"):New(("%sSettings"):format(ADDON_NAME), DATABASE_DEFAULTS, "Default")
     private.db = db
 
-    LDBIcon:Register(ADDON_NAME, LibStub("LibDataBroker-1.1", true):NewDataObject(ADDON_NAME,
-        {
+    LDBIcon:Register(
+        ADDON_NAME,
+        LibStub("LibDataBroker-1.1", true):NewDataObject(ADDON_NAME, {
             type = "launcher",
             label = ADDON_NAME,
             icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
@@ -222,7 +221,9 @@ function Toaster:OnInitialize()
                     _G.InterfaceOptionsFrame_OpenToCategory(self.OptionsFrame)
                 end
             end,
-        }), db.global.general.minimap_icon)
+        }),
+        db.global.general.minimap_icon
+    )
 
     -- Make sure this doesn't exist, since earlier versions allowed it.
     -- TODO: Remove this after a few months.
@@ -252,9 +253,6 @@ function Toaster:OnInitialize()
     end)
 end
 
-function Toaster:OnEnable()
-end
+function Toaster:OnEnable() end
 
-function Toaster:OnDisable()
-end
-
+function Toaster:OnDisable() end
