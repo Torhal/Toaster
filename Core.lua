@@ -1,14 +1,18 @@
------------------------------------------------------------------------
--- AddOn namespace.
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- AddOn Namespace
+--------------------------------------------------------------------------------
+
 local AddOnFolderName, private = ...
 
 local LDBIcon = LibStub("LibDBIcon-1.0")
+
+---@class Toaster: AceAddon, AceConsole-3.0
 local Toaster = LibStub("AceAddon-3.0"):NewAddon(AddOnFolderName, "AceConsole-3.0")
 
------------------------------------------------------------------------
--- Constants
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Constants
+--------------------------------------------------------------------------------
+
 local DEFAULT_BACKGROUND_COLORS = {
     r = 0,
     g = 0,
@@ -27,17 +31,19 @@ local DEFAULT_TEXT_COLORS = {
     b = 0.541,
 }
 
------------------------------------------------------------------------
--- Variables
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Variables
+--------------------------------------------------------------------------------
+
 local AddOnObjects = {}
 private.AddOnObjects = AddOnObjects
 
 local db
 
------------------------------------------------------------------------
--- Helpers.
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Helpers
+--------------------------------------------------------------------------------
+
 local function RegisterAddOn(addonName)
     if addonName == AddOnFolderName or addonName == "LibToast-1.0" or AddOnObjects[addonName] then
         return false
@@ -51,9 +57,10 @@ local function RegisterAddOn(addonName)
     return true
 end
 
------------------------------------------------------------------------
--- Public API
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Public API
+--------------------------------------------------------------------------------
+
 function Toaster:SpawnPoint()
     return db.global.display.anchor.point
 end
@@ -120,6 +127,7 @@ function Toaster:HideToastsFromSource(addonName)
     if not addonName or RegisterAddOn(addonName) then
         return false
     end
+
     return not db.global.addons[addonName].enabled
 end
 
@@ -131,12 +139,14 @@ function Toaster:MuteToastsFromSource(addonName)
     if not addonName or RegisterAddOn(addonName) then
         return false
     end
+
     return db.global.addons[addonName].mute
 end
 
------------------------------------------------------------------------
--- Initialization/Enable/Disable
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Initialization/Enable/Disable
+--------------------------------------------------------------------------------
+
 local DEFAULT_OFFSET_X = {
     TOPRIGHT = -20,
     BOTTOMRIGHT = -20,

@@ -1,21 +1,25 @@
------------------------------------------------------------------------
--- AddOn namespace.
------------------------------------------------------------------------
-local ADDON_NAME, private = ...
+--------------------------------------------------------------------------------
+---- AddOn Namespace
+--------------------------------------------------------------------------------
 
-local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
+local AddOnFolderName, private = ...
+
+local L = LibStub("AceLocale-3.0"):GetLocale(AddOnFolderName)
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local LDBIcon = LibStub("LibDBIcon-1.0")
 local LibToast = LibStub("LibToast-1.0", true)
 local LibWindow = LibStub("LibWindow-1.1")
-local Toaster = LibStub("AceAddon-3.0"):GetAddon(ADDON_NAME)
+
+---@class Toaster
+local Toaster = LibStub("AceAddon-3.0"):GetAddon(AddOnFolderName)
 
 local db
 
--------------------------------------------------------------------------------
--- Constants.
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Constants
+--------------------------------------------------------------------------------
+
 local SPAWN_POINTS = {
     "CENTER",
     "BOTTOM",
@@ -38,14 +42,16 @@ end
 
 local TOAST_MAX_DURATION = 120
 
--------------------------------------------------------------------------------
--- Variables.
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Variables
+--------------------------------------------------------------------------------
+
 local anchorFrame
 
--------------------------------------------------------------------------------
--- Helpers.
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---- Helpers
+--------------------------------------------------------------------------------
+
 local function round(num, idp)
     local mult = 10 ^ (idp or 0)
     return math.floor(num * mult + 0.5) / mult
@@ -91,7 +97,7 @@ local function CreateAnchorFrame()
     title:SetWordWrap(true)
     title:SetPoint("TOPLEFT", anchorFrame, "TOPLEFT", icon:GetWidth() + 15, -10)
     title:SetPoint("RIGHT", anchorFrame, "RIGHT", -20, 10)
-    title:SetText(ADDON_NAME)
+    title:SetText(AddOnFolderName)
     title:SetTextColor(Toaster:TitleColors("normal"))
     title:SetWidth(anchorFrame:GetWidth() - icon:GetWidth() - 20)
 
@@ -340,7 +346,7 @@ local function DefaultOptions()
                 end,
                 set = function(info, value)
                     db.global.general.minimap_icon.hide = not value
-                    LDBIcon[value and "Show" or "Hide"](LDBIcon, ADDON_NAME)
+                    LDBIcon[value and "Show" or "Hide"](LDBIcon, AddOnFolderName)
                 end,
             },
             hide_toasts = {
@@ -513,7 +519,7 @@ local options
 local function Options()
     if not options then
         options = {
-            name = ADDON_NAME,
+            name = AddOnFolderName,
             type = "group",
             childGroups = "tab",
             args = {
@@ -526,9 +532,9 @@ local function Options()
 end
 
 local function SetupSuboptions(label, optionsTable)
-    local optionsName = ADDON_NAME .. ":" .. label
+    local optionsName = AddOnFolderName .. ":" .. label
     AceConfigRegistry:RegisterOptionsTable(optionsName, optionsTable)
-    return AceConfigDialog:AddToBlizOptions(optionsName, optionsTable.name or label, ADDON_NAME)
+    return AceConfigDialog:AddToBlizOptions(optionsName, optionsTable.name or label, AddOnFolderName)
 end
 
 function Toaster:SetupOptions()
@@ -540,11 +546,11 @@ function Toaster:SetupOptions()
     LibWindow.MakeDraggable(anchorFrame)
 
     anchorFrame:HookScript("OnDragStop", function()
-        AceConfigRegistry:NotifyChange(ADDON_NAME)
+        AceConfigRegistry:NotifyChange(AddOnFolderName)
     end)
 
-    AceConfigRegistry:RegisterOptionsTable(ADDON_NAME, Options)
-    self.OptionsFrame = AceConfigDialog:AddToBlizOptions(ADDON_NAME)
+    AceConfigRegistry:RegisterOptionsTable(AddOnFolderName, Options)
+    self.OptionsFrame = AceConfigDialog:AddToBlizOptions(AddOnFolderName)
     self.ColorOptions = SetupSuboptions("Color", ColorOptions())
 end
 
@@ -568,6 +574,7 @@ function Toaster:UpdateAddOnOptions()
     for name, data in pairs(private.AddOnObjects) do
         SortedAddOns[#SortedAddOns + 1] = data
     end
+
     table.sort(SortedAddOns, SortAddOnsByNameAndEnabled)
 
     for index = 1, #SortedAddOns do
@@ -578,14 +585,16 @@ function Toaster:UpdateAddOnOptions()
                 args = AddOnOptionArgs,
             }
         end
+
         addOn.options.name = string.format(
             "%s%s",
             db.global.addons[addOn.name].enabled and _G.GREEN_FONT_COLOR_CODE or _G.RED_FONT_COLOR_CODE,
             addOn.name
         )
+
         addOn.options.order = index
         AddOnOptions.args[addOn.name] = addOn.options
     end
 
-    AceConfigRegistry:NotifyChange(ADDON_NAME .. ":AddOns")
+    AceConfigRegistry:NotifyChange(AddOnFolderName .. ":AddOns")
 end
