@@ -1,18 +1,10 @@
 -----------------------------------------------------------------------
--- Upvalued Lua API.
------------------------------------------------------------------------
-local _G = getfenv(0)
-
------------------------------------------------------------------------
 -- AddOn namespace.
 -----------------------------------------------------------------------
 local AddOnFolderName, private = ...
 
-local LibStub = _G.LibStub
-local L = LibStub("AceLocale-3.0"):GetLocale(AddOnFolderName)
 local LDBIcon = LibStub("LibDBIcon-1.0")
 local Toaster = LibStub("AceAddon-3.0"):NewAddon(AddOnFolderName, "AceConsole-3.0")
-_G.Toaster = Toaster
 
 -----------------------------------------------------------------------
 -- Constants
@@ -219,10 +211,6 @@ function Toaster:OnInitialize()
         }),
         db.global.general.minimap_icon
     )
-
-    -- Make sure this doesn't exist, since earlier versions allowed it.
-    -- TODO: Remove this after a few months.
-    db.global.addons["LibToast-1.0"] = nil
 
     for addonName, data in _G.pairs(db.global.addons) do
         -- Migration.

@@ -1,22 +1,8 @@
 -----------------------------------------------------------------------
--- Upvalued Lua API.
------------------------------------------------------------------------
-local _G = getfenv(0)
-
-local math = _G.math
-local string = _G.string
-local table = _G.table
-
-local pairs = _G.pairs
-local tonumber = _G.tonumber
-local tostring = _G.tostring
-
------------------------------------------------------------------------
 -- AddOn namespace.
 -----------------------------------------------------------------------
 local ADDON_NAME, private = ...
 
-local LibStub = _G.LibStub
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
@@ -26,7 +12,6 @@ local LibWindow = LibStub("LibWindow-1.1")
 local Toaster = LibStub("AceAddon-3.0"):GetAddon(ADDON_NAME)
 
 local db
-local AddOnObjects = private.AddOnObjects
 
 -------------------------------------------------------------------------------
 -- Constants.
