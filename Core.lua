@@ -209,18 +209,16 @@ function Toaster:OnInitialize()
     db = LibStub("AceDB-3.0"):New(("%sSettings"):format(AddOnFolderName), DATABASE_DEFAULTS, "Default")
     private.db = db
 
-    LDBIcon:Register(
-        AddOnFolderName,
-        LibStub("LibDataBroker-1.1", true):NewDataObject(AddOnFolderName, {
-            type = "launcher",
-            label = AddOnFolderName,
-            icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
-            OnClick = function(display, button)
-                Toaster:ToggleOptionsVisibility()
-            end,
-        }),
-        db.global.general.minimap_icon
-    )
+    local dataObject = LibStub("LibDataBroker-1.1", true):NewDataObject(AddOnFolderName, {
+        type = "launcher",
+        label = AddOnFolderName,
+        icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
+        OnClick = function(display, button)
+            Toaster:ToggleOptionsVisibility()
+        end,
+    }) --[[@as LibDBIcon.dataObject]]
+
+    LDBIcon:Register(AddOnFolderName, dataObject, db.global.general.minimap_icon)
 
     for addonName, data in _G.pairs(db.global.addons) do
         -- Migration.
