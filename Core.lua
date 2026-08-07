@@ -216,7 +216,7 @@ function Toaster:OnInitialize()
         OnClick = function(display, button)
             Toaster:ToggleOptionsVisibility()
         end,
-    }) --[[@as LibDBIcon.dataObject]]
+    })
 
     LDBIcon:Register(AddOnFolderName, dataObject, db.global.general.minimap_icon)
 
