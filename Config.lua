@@ -11,7 +11,7 @@ local LDBIcon = LibStub("LibDBIcon-1.0")
 local LibToast = LibStub("LibToast-1.0", true)
 local LibWindow = LibStub("LibWindow-1.1")
 
----@class Toaster
+---@class Toaster: AceAddon
 local Toaster = LibStub("AceAddon-3.0"):GetAddon(AddOnFolderName)
 
 local db
