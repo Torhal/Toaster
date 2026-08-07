@@ -497,7 +497,7 @@ local function DefaultOptions()
                 type = "execute",
                 name = L["Reset Position"],
                 func = function()
-                    db.global.display.anchor = _G.copyTable(private.DATABASE_DEFAULTS.global.display.anchor)
+                    db.global.display.anchor = CopyTable(private.DATABASE_DEFAULTS.global.display.anchor)
                     LibWindow.RestorePosition(anchorFrame)
                 end,
             },
