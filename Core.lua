@@ -9,6 +9,9 @@ local LDBIcon = LibStub("LibDBIcon-1.0")
 ---@class Toaster: AceAddon, AceConsole-3.0
 local Toaster = LibStub("AceAddon-3.0"):NewAddon(AddOnFolderName, "AceConsole-3.0")
 
+-- This global handle needs to exist so LibToast-1.0 can use it for various settings.
+_G.Toaster = Toaster
+
 --------------------------------------------------------------------------------
 ---- Constants
 --------------------------------------------------------------------------------
