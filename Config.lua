@@ -63,6 +63,7 @@ end
 ---@return AnchorFrame
 local function CreateAnchorFrame()
     local anchorFrame = _G.CreateFrame("Frame", nil, _G.UIParent, _G.BackdropTemplateMixin and "BackdropTemplate") --[[@as AnchorFrame]]
+
     anchorFrame:SetSize(250, 50)
     anchorFrame:SetFrameStrata("DIALOG")
     anchorFrame:SetBackdrop({
@@ -80,8 +81,8 @@ local function CreateAnchorFrame()
     })
 
     local r, g, b = Toaster:BackgroundColors("normal")
-    anchorFrame:SetBackdropColor(r, g, b, Toaster:Opacity())
 
+    anchorFrame:SetBackdropColor(r, g, b, Toaster:Opacity())
     anchorFrame:EnableMouse(true)
     anchorFrame:RegisterForDrag("LeftButton")
     anchorFrame:SetClampedToScreen(true)
@@ -127,6 +128,7 @@ local function CreateAnchorFrame()
     end)
 
     anchorFrame:SetHeight(text:GetStringHeight() + title:GetStringHeight() + 25)
+
     return anchorFrame
 end
 
@@ -224,7 +226,9 @@ local function ColorPreview(order, reference)
                     toast:SetUrgencyLevel(...)
                 end)
                 preview_registered = true
+
             end
+
             LibToast:Spawn("ToasterPreview", reference)
         end,
     }
@@ -533,6 +537,7 @@ local function Options()
         }
     end
     return options
+
 end
 
 local function SetupSuboptions(label, optionsTable)
@@ -554,6 +559,7 @@ function Toaster:SetupOptions()
     end)
 
     AceConfigRegistry:RegisterOptionsTable(AddOnFolderName, Options)
+
     self.OptionsFrame = AceConfigDialog:AddToBlizOptions(AddOnFolderName)
     self.ColorOptions = SetupSuboptions("Color", ColorOptions())
 end
