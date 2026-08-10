@@ -242,7 +242,7 @@ function Toaster:OnInitialize()
     db = LibStub("AceDB-3.0"):New(("%sSettings"):format(AddOnFolderName), DATABASE_DEFAULTS, "Default")
     private.db = db
 
-    local dataObject = LibStub("LibDataBroker-1.1", true):NewDataObject(AddOnFolderName, {
+    local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(AddOnFolderName, {
         type = "launcher",
         label = AddOnFolderName,
         icon = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]],
