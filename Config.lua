@@ -209,7 +209,7 @@ local function ColorDefinition(order, category, reference)
     }
 end
 
-local preview_registered = false
+local isPreviewRegistered = false
 
 local function ColorPreview(order, reference)
     return {
@@ -218,15 +218,15 @@ local function ColorPreview(order, reference)
         name = L["Preview"],
         width = "half",
         func = function()
-            if not preview_registered then
+            if not isPreviewRegistered then
                 LibToast:Register("ToasterPreview", function(toast, ...)
                     toast:SetTitle("Preview")
                     toast:SetFormattedText("This is a %s preview toast.", (...):gsub("_", " "))
                     toast:SetIconTexture([[Interface\FriendsFrame\Battlenet-WoWicon]])
                     toast:SetUrgencyLevel(...)
                 end)
-                preview_registered = true
 
+                isPreviewRegistered = true
             end
 
             LibToast:Spawn("ToasterPreview", reference)
