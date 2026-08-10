@@ -8,7 +8,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(AddOnFolderName)
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local LDBIcon = LibStub("LibDBIcon-1.0")
-local LibToast = LibStub("LibToast-1.0", true)
+local LibToast = LibStub("LibToast-1.0")
 local LibWindow = LibStub("LibWindow-1.1")
 
 ---@class Toaster: AceAddon
