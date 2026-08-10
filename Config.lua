@@ -353,10 +353,10 @@ local function GetDefaultOptions()
                 order = 10,
                 type = "toggle",
                 name = L["Show Minimap Icon"],
-                get = function(info)
+                get = function()
                     return not db.global.general.minimap_icon.hide
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.general.minimap_icon.hide = not value
                     LDBIcon[value and "Show" or "Hide"](LDBIcon, AddOnFolderName)
                 end,
@@ -365,10 +365,10 @@ local function GetDefaultOptions()
                 order = 20,
                 type = "toggle",
                 name = L["Hide Toasts"],
-                get = function(info)
+                get = function()
                     return db.global.general.hide_toasts
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.general.hide_toasts = value
                 end,
             },
@@ -376,10 +376,10 @@ local function GetDefaultOptions()
                 order = 30,
                 type = "toggle",
                 name = L["Mute Toasts"],
-                get = function(info)
+                get = function()
                     return db.global.general.mute_toasts
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.general.mute_toasts = value
                 end,
             },
@@ -395,7 +395,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.opacity
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.opacity = value
                 end,
             },
@@ -416,7 +416,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.duration
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.duration = value
                 end,
             },
@@ -436,7 +436,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.icon_size
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.icon_size = value
                 end,
             },
@@ -447,7 +447,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.floating_icon
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.floating_icon = value
                 end,
             },
@@ -464,7 +464,7 @@ local function GetDefaultOptions()
                 get = function()
                     return SPAWN_INDICES[db.global.display.anchor.point]
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.anchor.point = SPAWN_POINTS[value]
                     LibWindow.RestorePosition(AnchorFrame)
                 end,
@@ -478,7 +478,7 @@ local function GetDefaultOptions()
                 get = function()
                     return tostring(round(db.global.display.anchor.x))
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.anchor.x = tonumber(value)
                     LibWindow.RestorePosition(AnchorFrame)
                 end,
@@ -492,7 +492,7 @@ local function GetDefaultOptions()
                 get = function()
                     return tostring(round(db.global.display.anchor.y))
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     db.global.display.anchor.y = tonumber(value)
                     LibWindow.RestorePosition(AnchorFrame)
                 end,
