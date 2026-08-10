@@ -3,7 +3,12 @@
     "ignorePaths": [],
     "dictionaryDefinitions": [],
     "dictionaries": [],
-    "words": [],
+    "words": [
+        "Battlenet",
+        "Bliz",
+        "Suboptions",
+        "WoWicon"
+    ],
     "ignoreWords": [],
     "import": []
 }
