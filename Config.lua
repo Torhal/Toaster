@@ -52,9 +52,11 @@ local anchorFrame
 ---- Helpers
 --------------------------------------------------------------------------------
 
-local function round(num, idp)
-    local mult = 10 ^ (idp or 0)
-    return math.floor(num * mult + 0.5) / mult
+---@param number number
+---@param places number
+local function round(number, places)
+    local multiplier = 10 ^ (places or 0)
+    return math.floor(number * multiplier + 0.5) / multiplier
 end
 
 local function CreateAnchorFrame()
