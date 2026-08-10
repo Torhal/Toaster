@@ -47,6 +47,7 @@ local db
 ---- Helpers
 --------------------------------------------------------------------------------
 
+---@param addonName string
 local function RegisterAddOn(addonName)
     if addonName == AddOnFolderName or addonName == "LibToast-1.0" or AddOnObjects[addonName] then
         return false
@@ -64,68 +65,94 @@ end
 ---- Public API
 --------------------------------------------------------------------------------
 
+---@return FramePoint
 function Toaster:SpawnPoint()
     return db.global.display.anchor.point
 end
 
+---@return number
 function Toaster:SpawnOffsetX()
     return db.global.display.anchor.x
 end
 
+---@return number
 function Toaster:SpawnOffsetY()
     return db.global.display.anchor.y
 end
 
-function Toaster:TitleColors(urgency)
-    if not urgency then
-        urgency = "normal"
+---@param urgencyLevel LibToast-1.0.UrgencyLevel
+---@return (number r, number g, number b)
+function Toaster:TitleColors(urgencyLevel)
+    if not urgencyLevel then
+        urgencyLevel = "normal"
     end
-    local colors = db.global.display.title[urgency] or DEFAULT_TITLE_COLORS
+
+    local colors = db.global.display.title[urgencyLevel] or DEFAULT_TITLE_COLORS
+
     return colors.r, colors.g, colors.b
 end
 
-function Toaster:TextColors(urgency)
-    if not urgency then
-        urgency = "normal"
+---@param urgencyLevel LibToast-1.0.UrgencyLevel
+---@return (number r, number g, number b)
+function Toaster:TextColors(urgencyLevel)
+    if not urgencyLevel then
+        urgencyLevel = "normal"
     end
-    local colors = db.global.display.text[urgency]
+
+    local colors = db.global.display.text[urgencyLevel]
+
     return colors.r, colors.g, colors.b
 end
 
 function Toaster:Backdrop() end
 
+---@param addonName string?
+---@return number
 function Toaster:Duration(addonName)
     local addon = addonName and db.global.addons[addonName]
     return (addon and addon.known) and addon.duration or db.global.display.duration
 end
 
+---@param addonName string?
+---@return boolean
 function Toaster:FloatingIcon(addonName)
     local addon = addonName and db.global.addons[addonName]
     return (addon and addon.known) and addon.floating_icon or db.global.display.floating_icon
 end
 
+---@param addonName string?
+---@return number
 function Toaster:IconSize(addonName)
     local addon = addonName and db.global.addons[addonName]
     return (addon and addon.known) and addon.icon_size or db.global.display.icon_size
 end
 
+---@param addonName string?
+---@return number
 function Toaster:Opacity(addonName)
     local addon = addonName and db.global.addons[addonName]
     return (addon and addon.known) and addon.opacity or db.global.display.opacity
 end
 
+---@param urgency LibToast-1.0.UrgencyLevel
+---@return (number r, number g, number b)
 function Toaster:BackgroundColors(urgency)
     if not urgency then
         urgency = "normal"
     end
+
     local colors = db.global.display.background[urgency]
+
     return colors.r, colors.g, colors.b
 end
 
+---@return boolean
 function Toaster:HideToasts()
     return db.global.general.hide_toasts
 end
 
+---@param addonName string
+---@return boolean
 function Toaster:HideToastsFromSource(addonName)
     if not addonName or RegisterAddOn(addonName) then
         return false
@@ -134,10 +161,13 @@ function Toaster:HideToastsFromSource(addonName)
     return not db.global.addons[addonName].enabled
 end
 
+---@return boolean
 function Toaster:MuteToasts()
     return db.global.general.mute_toasts
 end
 
+---@param addonName string
+---@return boolean
 function Toaster:MuteToastsFromSource(addonName)
     if not addonName or RegisterAddOn(addonName) then
         return false
