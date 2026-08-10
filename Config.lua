@@ -234,8 +234,10 @@ local function ColorPreview(order, reference)
     }
 end
 
+---@type AceConfig.OptionsTable
 local ColorOptions
 
+---@return AceConfig.OptionsTable
 local function GetColorOptions()
     if ColorOptions then
         return ColorOptions
@@ -333,8 +335,10 @@ local function GetColorOptions()
     return ColorOptions
 end
 
+---@type AceConfig.OptionsTable
 local DefaultOptions
 
+---@return AceConfig.OptionsTable
 local function GetDefaultOptions()
     if DefaultOptions then
         return DefaultOptions
