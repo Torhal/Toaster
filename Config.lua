@@ -46,7 +46,7 @@ local TOAST_MAX_DURATION = 120
 ---- Variables
 --------------------------------------------------------------------------------
 
-local anchorFrame
+local AnchorFrame
 
 --------------------------------------------------------------------------------
 ---- Helpers
@@ -456,7 +456,7 @@ local function DefaultOptions()
                 end,
                 set = function(info, value)
                     db.global.display.anchor.point = SPAWN_POINTS[value]
-                    LibWindow.RestorePosition(anchorFrame)
+                    LibWindow.RestorePosition(AnchorFrame)
                 end,
                 values = LOCALIZED_SPAWN_POINTS,
             },
@@ -470,7 +470,7 @@ local function DefaultOptions()
                 end,
                 set = function(info, value)
                     db.global.display.anchor.x = tonumber(value)
-                    LibWindow.RestorePosition(anchorFrame)
+                    LibWindow.RestorePosition(AnchorFrame)
                 end,
                 dialogControl = "EditBox",
             },
@@ -484,7 +484,7 @@ local function DefaultOptions()
                 end,
                 set = function(info, value)
                     db.global.display.anchor.y = tonumber(value)
-                    LibWindow.RestorePosition(anchorFrame)
+                    LibWindow.RestorePosition(AnchorFrame)
                 end,
                 dialogControl = "EditBox",
             },
@@ -500,7 +500,7 @@ local function DefaultOptions()
                 name = L["Reset Position"],
                 func = function()
                     db.global.display.anchor = CopyTable(private.DATABASE_DEFAULTS.global.display.anchor)
-                    LibWindow.RestorePosition(anchorFrame)
+                    LibWindow.RestorePosition(AnchorFrame)
                 end,
             },
             show_anchor = {
@@ -508,7 +508,7 @@ local function DefaultOptions()
                 type = "execute",
                 name = L["Show Anchor"],
                 func = function()
-                    anchorFrame:Show()
+                    AnchorFrame:Show()
                 end,
             },
         },
@@ -541,13 +541,13 @@ end
 
 function Toaster:SetupOptions()
     db = private.db
-    anchorFrame = CreateAnchorFrame()
+    AnchorFrame = CreateAnchorFrame()
 
-    LibWindow.RegisterConfig(anchorFrame, db.global.display.anchor)
-    LibWindow.RestorePosition(anchorFrame)
-    LibWindow.MakeDraggable(anchorFrame)
+    LibWindow.RegisterConfig(AnchorFrame, db.global.display.anchor)
+    LibWindow.RestorePosition(AnchorFrame)
+    LibWindow.MakeDraggable(AnchorFrame)
 
-    anchorFrame:HookScript("OnDragStop", function()
+    AnchorFrame:HookScript("OnDragStop", function()
         AceConfigRegistry:NotifyChange(AddOnFolderName)
     end)
 
