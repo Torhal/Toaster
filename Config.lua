@@ -538,7 +538,7 @@ end
 local function SetupSuboptions(label, optionsTable)
     local optionsName = AddOnFolderName .. ":" .. label
     AceConfigRegistry:RegisterOptionsTable(optionsName, optionsTable)
-    return AceConfigDialog:AddToBlizOptions(optionsName, optionsTable.name or label, AddOnFolderName)
+    return AceConfigDialog:AddToBlizOptions(optionsName, optionsTable.name or tostring(label), AddOnFolderName)
 end
 
 function Toaster:SetupOptions()
