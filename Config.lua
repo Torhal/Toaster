@@ -46,6 +46,7 @@ local TOAST_MAX_DURATION = 120
 ---- Variables
 --------------------------------------------------------------------------------
 
+---@type AnchorFrame!
 local AnchorFrame
 
 --------------------------------------------------------------------------------
@@ -59,8 +60,9 @@ local function round(number, places)
     return math.floor(number * multiplier + 0.5) / multiplier
 end
 
+---@return AnchorFrame
 local function CreateAnchorFrame()
-    local anchorFrame = _G.CreateFrame("Frame", nil, _G.UIParent, _G.BackdropTemplateMixin and "BackdropTemplate")
+    local anchorFrame = _G.CreateFrame("Frame", nil, _G.UIParent, _G.BackdropTemplateMixin and "BackdropTemplate") --[[@as AnchorFrame]]
     anchorFrame:SetSize(250, 50)
     anchorFrame:SetFrameStrata("DIALOG")
     anchorFrame:SetBackdrop({
@@ -600,3 +602,9 @@ function Toaster:UpdateAddOnOptions()
 
     AceConfigRegistry:NotifyChange(AddOnFolderName .. ":AddOns")
 end
+
+--------------------------------------------------------------------------------
+---- Types
+--------------------------------------------------------------------------------
+
+---@class AnchorFrame: Frame, BackdropTemplate
