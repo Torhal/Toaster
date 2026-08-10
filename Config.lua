@@ -54,7 +54,7 @@ local AnchorFrame
 --------------------------------------------------------------------------------
 
 ---@param number number
----@param places number
+---@param places number?
 local function round(number, places)
     local multiplier = 10 ^ (places or 0)
     return math.floor(number * multiplier + 0.5) / multiplier
