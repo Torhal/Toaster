@@ -234,14 +234,14 @@ local function ColorPreview(order, reference)
     }
 end
 
-local color_options
+local ColorOptions
 
-local function ColorOptions()
-    if color_options then
-        return color_options
+local function GetColorOptions()
+    if ColorOptions then
+        return ColorOptions
     end
 
-    color_options = {
+    ColorOptions = {
         order = 2,
         name = _G.COLOR,
         type = "group",
@@ -330,17 +330,17 @@ local function ColorOptions()
         },
     }
 
-    return color_options
+    return ColorOptions
 end
 
-local defaultOptions
+local DefaultOptions
 
-local function DefaultOptions()
-    if defaultOptions then
-        return defaultOptions
+local function GetDefaultOptions()
+    if DefaultOptions then
+        return DefaultOptions
     end
 
-    defaultOptions = {
+    DefaultOptions = {
         order = 3,
         name = _G.DEFAULTS,
         type = "group",
@@ -519,25 +519,26 @@ local function DefaultOptions()
             },
         },
     }
-    return defaultOptions
+
+    return DefaultOptions
 end
 
-local options
+local Options
 
-local function Options()
-    if not options then
-        options = {
+local function GetOptions()
+    if not Options then
+        Options = {
             name = AddOnFolderName,
             type = "group",
             childGroups = "tab",
             args = {
                 addOnsOptions = AddOnOptions,
-                defaultOptions = DefaultOptions(),
+                DefaultOptions = GetDefaultOptions(),
             },
         }
     end
-    return options
 
+    return Options
 end
 
 local function SetupSuboptions(label, optionsTable)
@@ -558,10 +559,10 @@ function Toaster:SetupOptions()
         AceConfigRegistry:NotifyChange(AddOnFolderName)
     end)
 
-    AceConfigRegistry:RegisterOptionsTable(AddOnFolderName, Options)
+    AceConfigRegistry:RegisterOptionsTable(AddOnFolderName, GetOptions)
 
     self.OptionsFrame = AceConfigDialog:AddToBlizOptions(AddOnFolderName)
-    self.ColorOptions = SetupSuboptions("Color", ColorOptions())
+    self.ColorOptions = SetupSuboptions("Color", GetColorOptions())
 end
 
 local SortedAddOns = {}
