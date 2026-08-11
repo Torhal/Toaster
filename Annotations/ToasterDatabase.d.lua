@@ -19,8 +19,8 @@
 ---@class ToasterDatabase.Global.Display.Anchor
 ---@field point FramePoint
 ---@field scale number
----@field x { BOTTONRIGHT: number, TOPRIGHT: number}
----@field y { BOTTONRIGHT: number, TOPRIGHT: number}
+---@field x number
+---@field y number
 
 ---@class ToasterDatabase.Global.Display.Background
 ---@field * { r: number, g: number, b: number, }
