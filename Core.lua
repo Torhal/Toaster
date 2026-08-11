@@ -268,7 +268,7 @@ function Toaster:OnInitialize()
     self:SetupOptions()
     self:UpdateAddOnOptions()
 
-    self:RegisterChatCommand("toaster", function(args)
+    self:RegisterChatCommand("toaster", function()
         self:ToggleOptionsVisibility()
     end)
 end
