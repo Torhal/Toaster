@@ -84,10 +84,6 @@ end
 ---@param urgencyLevel LibToast-1.0.UrgencyLevel
 ---@return (number r, number g, number b)
 function Toaster:TitleColors(urgencyLevel)
-    if not urgencyLevel then
-        urgencyLevel = "normal"
-    end
-
     local colors = db.global.display.title[urgencyLevel] or DEFAULT_TITLE_COLORS
 
     return colors.r, colors.g, colors.b
@@ -96,10 +92,6 @@ end
 ---@param urgencyLevel LibToast-1.0.UrgencyLevel
 ---@return (number r, number g, number b)
 function Toaster:TextColors(urgencyLevel)
-    if not urgencyLevel then
-        urgencyLevel = "normal"
-    end
-
     local colors = db.global.display.text[urgencyLevel]
 
     return colors.r, colors.g, colors.b
