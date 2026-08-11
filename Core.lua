@@ -130,10 +130,6 @@ end
 ---@param urgency LibToast-1.0.UrgencyLevel
 ---@return (number r, number g, number b)
 function Toaster:BackgroundColors(urgency)
-    if not urgency then
-        urgency = "normal"
-    end
-
     local colors = db.global.display.background[urgency]
 
     return colors.r, colors.g, colors.b
