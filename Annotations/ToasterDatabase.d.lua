@@ -26,7 +26,11 @@
 ---@field * { r: number, g: number, b: number, }
 
 ---@class ToasterDatabase.Global.Display.Text
----@field * { r: number, g: number, b: number, }
+---@field emergency { r: number, g: number, b: number, }
+---@field high { r: number, g: number, b: number, }
+---@field moderate { r: number, g: number, b: number, }
+---@field normal { r: number, g: number, b: number, }
+---@field very_low { r: number, g: number, b: number, }
 
 ---@class ToasterDatabase.Global.Display.Title
 ---@field * { r: number, g: number, b: number, }
