@@ -5,13 +5,14 @@
 --------------------------------------------------------------------------------
 
 ---@class ToasterDatabase.Global.AddOns.Wildcard
----@field enabled boolean
----@field mute boolean
 ---@field duration number
----@field icon_size number
+---@field enabled boolean
 ---@field floating_icon boolean
----@field opacity number
+---@field icon_size number
 ---@field known boolean
+---@field mute boolean
+---@field opacity number
+---@field show boolean
 
 ---@class ToasterDatabase.Global.AddOns
 ---@field * ToasterDatabase.Global.AddOns.Wildcard
