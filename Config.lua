@@ -14,6 +14,7 @@ local LibWindow = LibStub("LibWindow-1.1")
 ---@class Toaster: AceAddon
 local Toaster = LibStub("AceAddon-3.0"):GetAddon(AddOnFolderName)
 
+---@type ToasterDatabase
 local db
 
 --------------------------------------------------------------------------------
@@ -178,9 +179,12 @@ local AddOnOptions = {
     order = 1,
     type = "group",
     childGroups = "tree",
+
+    ---@return boolean | number
     get = function(info)
         return db.global.addons[info[2]][info[3]]
     end,
+    ---@param value boolean | number
     set = function(info, value)
         db.global.addons[info[2]][info[3]] = value
         Toaster:UpdateAddOnOptions()
@@ -188,6 +192,9 @@ local AddOnOptions = {
     args = {},
 }
 
+---@param order number
+---@param category "background" | "text" | "title"
+---@param reference LibToast-1.0.UrgencyLevel
 local function ColorDefinition(order, category, reference)
     local name = L[category:lower():gsub("^%l", _G.string.upper):gsub("_", " "):gsub(" %l", _G.string.upper)]
 
@@ -197,20 +204,29 @@ local function ColorDefinition(order, category, reference)
         name = name,
         desc = _G.COLOR,
         get = function()
-            local col = db.global.display[category][reference]
-            return col.r, col.g, col.b
+            ---@type {r: number, g: number, b:number}
+            local color = db.global.display[category][reference]
+
+            return color.r, color.g, color.b
         end,
-        set = function(info, r, g, b)
-            local col = db.global.display[category][reference]
-            col.r = r
-            col.g = g
-            col.b = b
+        ---@param r number
+        ---@param g number
+        ---@param b number
+        set = function(_, r, g, b)
+            ---@type {r: number, g: number, b:number}
+            local color = db.global.display[category][reference]
+
+            color.r = r
+            color.g = g
+            color.b = b
         end,
     }
 end
 
 local isPreviewRegistered = false
 
+---@param order number
+---@param reference LibToast-1.0.UrgencyLevel
 local function ColorPreview(order, reference)
     return {
         order = order,
@@ -356,6 +372,7 @@ local function GetDefaultOptions()
                 get = function()
                     return not db.global.general.minimap_icon.hide
                 end,
+                ---@param value boolean
                 set = function(_, value)
                     db.global.general.minimap_icon.hide = not value
                     LDBIcon[value and "Show" or "Hide"](LDBIcon, AddOnFolderName)
@@ -368,6 +385,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.general.hide_toasts
                 end,
+                ---@param value boolean
                 set = function(_, value)
                     db.global.general.hide_toasts = value
                 end,
@@ -379,6 +397,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.general.mute_toasts
                 end,
+                ---@param value boolean
                 set = function(_, value)
                     db.global.general.mute_toasts = value
                 end,
@@ -395,6 +414,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.opacity
                 end,
+                ---@param value number
                 set = function(_, value)
                     db.global.display.opacity = value
                 end,
@@ -416,6 +436,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.duration
                 end,
+                ---@param value number
                 set = function(_, value)
                     db.global.display.duration = value
                 end,
@@ -436,6 +457,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.icon_size
                 end,
+                ---@param value number
                 set = function(_, value)
                     db.global.display.icon_size = value
                 end,
@@ -447,6 +469,7 @@ local function GetDefaultOptions()
                 get = function()
                     return db.global.display.floating_icon
                 end,
+                ---@param value boolean
                 set = function(_, value)
                     db.global.display.floating_icon = value
                 end,
@@ -572,8 +595,11 @@ function Toaster:SetupOptions()
     self.ColorOptions = SetupSuboptions("Color", GetColorOptions())
 end
 
+---@type { name: string }[]
 local SortedAddOns = {}
 
+---@param a { name: string }
+---@param b { name: string }
 local function SortAddOnsByNameAndEnabled(a, b)
     local addonA = db.global.addons[a.name]
     local addonB = db.global.addons[b.name]

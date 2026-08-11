@@ -110,28 +110,36 @@ function Toaster:Backdrop() end
 ---@param addonName string?
 ---@return number
 function Toaster:Duration(addonName)
+    ---@type ToasterDatabase.Global.AddOns.Wildcard?
     local addon = addonName and db.global.addons[addonName]
+
     return (addon and addon.known) and addon.duration or db.global.display.duration
 end
 
 ---@param addonName string?
 ---@return boolean
 function Toaster:FloatingIcon(addonName)
+    ---@type ToasterDatabase.Global.AddOns.Wildcard?
     local addon = addonName and db.global.addons[addonName]
+
     return (addon and addon.known) and addon.floating_icon or db.global.display.floating_icon
 end
 
 ---@param addonName string?
 ---@return number
 function Toaster:IconSize(addonName)
+    ---@type ToasterDatabase.Global.AddOns.Wildcard?
     local addon = addonName and db.global.addons[addonName]
+
     return (addon and addon.known) and addon.icon_size or db.global.display.icon_size
 end
 
 ---@param addonName string?
 ---@return number
 function Toaster:Opacity(addonName)
+    ---@type ToasterDatabase.Global.AddOns.Wildcard?
     local addon = addonName and db.global.addons[addonName]
+
     return (addon and addon.known) and addon.opacity or db.global.display.opacity
 end
 
@@ -193,6 +201,7 @@ local DEFAULT_OFFSET_Y = {
 
 ---@class DefaultPreferences: AceDB.Schema
 local DATABASE_DEFAULTS = {
+    ---@type ToasterDatabase.Global
     global = {
         addons = {
             ["*"] = {
