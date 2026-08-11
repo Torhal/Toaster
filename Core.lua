@@ -41,6 +41,7 @@ local DEFAULT_TEXT_COLORS = {
 local AddOnObjects = {}
 private.AddOnObjects = AddOnObjects
 
+---@type ToasterDatabase
 local db
 
 --------------------------------------------------------------------------------
@@ -240,8 +241,7 @@ local DATABASE_DEFAULTS = {
 private.DATABASE_DEFAULTS = DATABASE_DEFAULTS
 
 function Toaster:OnInitialize()
-    ---@type ToasterDatabase
-    db = LibStub("AceDB-3.0"):New(("%sSettings"):format(AddOnFolderName), DATABASE_DEFAULTS, "Default")
+    db = LibStub("AceDB-3.0"):New(("%sSettings"):format(AddOnFolderName), DATABASE_DEFAULTS, "Default") --[[@as ToasterDatabase]]
     private.db = db
 
     local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(AddOnFolderName, {
