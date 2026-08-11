@@ -44,6 +44,7 @@
 ---@class ToasterDatabase.Global.General
 ---@field hide_toasts boolean
 ---@field minimap_icon { hide: boolean }
+---@field mute_toasts boolean
 
 ---@class ToasterDatabase.Global
 ---@field addons ToasterDatabase.Global.AddOns

@@ -232,6 +232,7 @@ local DATABASE_DEFAULTS = {
             minimap_icon = {
                 hide = false,
             },
+            mute_toasts = false,
         },
     },
 }
