@@ -1,9 +1,10 @@
-local ADDON_NAME, private = ...
+local AddOnFolderName, private = ...
 
-local _G = getfenv(0)
-local L = _G.LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true)
+local L = LibStub("AceLocale-3.0"):NewLocale(AddOnFolderName, "enUS", true)
 
-if not L then return end
+if not L then
+    return
+end
 
 L["Background"] = true
 L["Drag to set the spawn point for toasts."] = true
