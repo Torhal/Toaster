@@ -527,8 +527,10 @@ local function GetDefaultOptions()
     return DefaultOptions
 end
 
+---@type AceConfig.OptionsTable
 local Options
 
+---@return AceConfig.OptionsTable
 local function GetOptions()
     if not Options then
         Options = {
@@ -547,6 +549,7 @@ end
 
 local function SetupSuboptions(label, optionsTable)
     local optionsName = AddOnFolderName .. ":" .. label
+
     AceConfigRegistry:RegisterOptionsTable(optionsName, optionsTable)
     return AceConfigDialog:AddToBlizOptions(optionsName, optionsTable.name or tostring(label), AddOnFolderName)
 end
