@@ -190,13 +190,13 @@ local DEFAULT_OFFSET_Y = {
     BOTTOMRIGHT = 30,
 }
 
+---@class DefaultPreferences: AceDB.Schema
 local DATABASE_DEFAULTS = {
     global = {
         addons = {
             ["*"] = {
                 enabled = true,
                 mute = false,
-
                 duration = 5,
                 icon_size = 30,
                 floating_icon = false,
@@ -239,6 +239,7 @@ local DATABASE_DEFAULTS = {
 private.DATABASE_DEFAULTS = DATABASE_DEFAULTS
 
 function Toaster:OnInitialize()
+    ---@type ToasterDatabase
     db = LibStub("AceDB-3.0"):New(("%sSettings"):format(AddOnFolderName), DATABASE_DEFAULTS, "Default")
     private.db = db
 
