@@ -7,28 +7,28 @@ ignore:
 
 externals:
   Libraries/LibStub:
-    url: svn://repos.curseforge.com/wow/libstub/mainline/trunk
+    url: https://repos.curseforge.com/wow/libstub/mainline/trunk
     tag: latest
   Libraries/CallbackHandler-1.0:
-    url: svn://repos.curseforge.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
+    url: https://repos.curseforge.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
     tag: latest
   Libraries/AceAddOn-3.0:
-    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceAddon-3.0
+    url: https://repos.curseforge.com/wow/ace3/mainline/trunk/AceAddon-3.0
     tag: latest
   Libraries/AceConfig-3.0:
-    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceConfig-3.0
+    url: https://repos.curseforge.com/wow/ace3/mainline/trunk/AceConfig-3.0
     tag: latest
   Libraries/AceConsole-3.0:
-    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceConsole-3.0
+    url: https://repos.curseforge.com/wow/ace3/mainline/trunk/AceConsole-3.0
     tag: latest
   Libraries/AceDB-3.0:
-    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceDB-3.0
+    url: https://repos.curseforge.com/wow/ace3/mainline/trunk/AceDB-3.0
     tag: latest
   Libraries/AceGUI-3.0:
-    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceGUI-3.0
+    url: https://repos.curseforge.com/wow/ace3/mainline/trunk/AceGUI-3.0
     tag: latest
   Libraries/AceLocale-3.0:
-    url: svn://repos.curseforge.com/wow/ace3/mainline/trunk/AceLocale-3.0
+    url: https://repos.curseforge.com/wow/ace3/mainline/trunk/AceLocale-3.0
     tag: latest
   Libraries/LibDataBroker-1.1:
     url: https://repos.curseforge.com/wow/libdatabroker-1-1
